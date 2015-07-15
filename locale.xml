@@ -21,7 +21,14 @@
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php">
-
+        <locale name="permission.quiqqer.watcher._header">
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="permission.quiqqer.watcher.readlog">
+            <de><![CDATA[Darf Watch-Logs aufrufen und lesen]]></de>
+            <en><![CDATA[May retrieve and read Watch logs]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php,js">

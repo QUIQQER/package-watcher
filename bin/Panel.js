@@ -34,7 +34,7 @@ define('package/quiqqer/watcher/bin/Panel', [
         {
             this.setAttributes({
                 icon : 'icon-eye-open',
-                title : QUILocale.get('quiqqer/qatcher', 'panel.title')
+                title : QUILocale.get('quiqqer/watcher', 'panel.title')
             });
 
             this.parent(option);

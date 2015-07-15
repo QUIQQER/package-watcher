@@ -17,5 +17,5 @@ function package_quiqqer_watcher_ajax_list($params)
 QUI::$Ajax->register(
     'package_quiqqer_watcher_ajax_list',
     array('params'),
-    'Permission::checkAdminUser'
+    array('Permission::checkAdminUser', 'quiqqer.watcher.readlog')
 );
