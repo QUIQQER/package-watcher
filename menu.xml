@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <item parent="/extras/"
+          name="watcher"
+          icon="icon-eye-open"
+          require="package/quiqqer/watcher/bin/Panel"
+    >
+        <locale group="quiqqer/watcher" var="menu.watcher.text" />
+    </item>
+</menu>

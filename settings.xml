@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiqqer>
+
+    <settings name="watcher">
+        <!-- config params -->
+        <config>
+            <section name="settings">
+                <conf name="users_and_groups">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="logAjax">
+                    <type><![CDATA[bool]]></type>
+                </conf>
+                <conf name="logEvents">
+                    <type><![CDATA[bool]]></type>
+                </conf>
+            </section>
+        </config>
+
+        <window>
+            <params>
+                <icon>icon-eye-open</icon>
+            </params>
+
+
+            <categories>
+                <category name="watcher">
+                    <text>
+                        <locale group="quiqqer/watcher" var="title" />
+                    </text>
+                    <icon>icon-gear</icon>
+
+                    <settings title="settings" name="settings">
+                        <title>
+                            <locale group="quiqqer/watcher" var="settings.title" />
+                        </title>
+                        <input conf="settings.users_and_groups" type="text" class="users_and_groups">
+                            <text>
+                                <locale group="quiqqer/watcher" var="settings.users_and_groups.text" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/watcher" var="settings.users_and_groups.description" />
+                            </description>
+                        </input>
+
+                        <input conf="settings.logAjax" type="checkbox">
+                            <text>
+                                <locale group="quiqqer/watcher" var="settings.logAjax.text" />
+                            </text>
+                        </input>
+                        <input conf="settings.logEvents" type="checkbox">
+                            <text>
+                                <locale group="quiqqer/watcher" var="settings.logEvents.text" />
+                            </text>
+                        </input>
+                    </settings>
+                </category>
+            </categories>
+        </window>
+
+    </settings>
+
+</quiqqer>

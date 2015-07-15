@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<events>
+
+    <!--
+    <event on="onFireEvent" fire="\QUI\Watcher\EventsReact::trigger" />
+    -->
+    <event on="onUserSave" fire="\QUI\Watcher\EventsReact::onUserSave" />
+    <event on="onUserSetPassword" fire="\QUI\Watcher\EventsReact::onUserSetPassword" />
+    <event on="onUserDisable" fire="\QUI\Watcher\EventsReact::onUserDisable" />
+    <event on="onUserActivate" fire="\QUI\Watcher\EventsReact::onUserActivate" />
+    <event on="onUserDeactivate" fire="\QUI\Watcher\EventsReact::onUserDeactivate" />
+    <event on="onUserDelete" fire="\QUI\Watcher\EventsReact::onUserDelete" />
+
+    <event on="onProjectConfigSave" fire="\QUI\Watcher\EventsReact::onProjectConfigSave" />
+    <event on="onCreateProject" fire="\QUI\Watcher\EventsReact::onCreateProject" />
+
+    <event on="onPackageSetup" fire="\QUI\Watcher\EventsReact::onPackageSetup" />
+    <event on="onPackageInstall" fire="\QUI\Watcher\EventsReact::onPackageInstall" />
+    <event on="onPackageUninstall" fire="\QUI\Watcher\EventsReact::onPackageUninstall" />
+
+    <event on="onSiteActivate" fire="\QUI\Watcher\EventsReact::onSiteActivate" />
+    <event on="onSiteDeactivate" fire="\QUI\Watcher\EventsReact::onSiteDeactivate" />
+    <event on="onSiteSave" fire="\QUI\Watcher\EventsReact::onSiteSave" />
+    <event on="onSiteDelete" fire="\QUI\Watcher\EventsReact::onSiteDelete" />
+    <event on="onSiteDestroy" fire="\QUI\Watcher\EventsReact::onSiteDestroy" />
+    <event on="onSiteCreateChild" fire="\QUI\Watcher\EventsReact::onSiteCreateChild" />
+    <event on="onSiteMove" fire="\QUI\Watcher\EventsReact::onSiteMove" />
+
+    <event on="onMediaActivate" fire="\QUI\Watcher\EventsReact::onMediaActivate" />
+    <event on="onMediaDeactivate" fire="\QUI\Watcher\EventsReact::onMediaDeactivate" />
+    <event on="onMediaSaveBegin" fire="\QUI\Watcher\EventsReact::onMediaSaveBegin" />
+    <event on="onMediaSave" fire="\QUI\Watcher\EventsReact::onMediaSave" />
+    <event on="onMediaDelete" fire="\QUI\Watcher\EventsReact::onMediaDelete" />
+    <event on="onMediaDeleteBegin" fire="\QUI\Watcher\EventsReact::onMediaDeleteBegin" />
+    <event on="onMediaDestroy" fire="\QUI\Watcher\EventsReact::onMediaDestroy" />
+    <event on="onMediaRename" fire="\QUI\Watcher\EventsReact::onMediaRename" />
+
+</events>

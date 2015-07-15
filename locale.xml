@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locales>
+    <groups name="quiqqer/watcher" datatype="js">
+        <locale name="panel.title">
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="grid.message">
+            <de><![CDATA[Nachricht]]></de>
+            <en><![CDATA[Message]]></en>
+        </locale>
+        <locale name="grid.call">
+            <de><![CDATA[Aufruf]]></de>
+            <en><![CDATA[Call]]></en>
+        </locale>
+        <locale name="grid.callParams">
+            <de><![CDATA[Aufruf-Parameter]]></de>
+            <en><![CDATA[Call parameters]]></en>
+        </locale>
+
+    </groups>
+
+    <groups name="quiqqer/watcher" datatype="php">
+
+    </groups>
+
+    <groups name="quiqqer/watcher" datatype="php,js">
+        <locale name="title">
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="menu.watcher.text">
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="settings.title">
+            <de><![CDATA[Watcher Einstellungen]]></de>
+            <en><![CDATA[Watcher settings]]></en>
+        </locale>
+        <locale name="settings.users_and_groups.text">
+            <de><![CDATA[Benutzer / Gruppen beobachten:]]></de>
+            <en><![CDATA[Watch users / groups:]]></en>
+        </locale>
+        <locale name="settings.users_and_groups.description">
+            <de><![CDATA[Setzen Sie die Benutzer und oder Gruppen für welche ein Ereignisprotokoll erstellt werden soll.]]></de>
+            <en><![CDATA[Put the users and or groups for which an event log is to be created.]]></en>
+        </locale>
+
+        <locale name="settings.logAjax.text">
+            <de><![CDATA[Ajax Request loggen]]></de>
+            <en><![CDATA[Log ajax requests]]></en>
+        </locale>
+        <locale name="settings.logEvents.text">
+            <de><![CDATA[Events loggen]]></de>
+            <en><![CDATA[Log events]]></en>
+        </locale>
+
+        <!-- messages -->
+
+        <locale name="watcher.message.ajax">
+            <de><![CDATA[AJAX Aufruf]]></de>
+            <en><![CDATA[AJAX Call]]></en>
+        </locale>
+        <locale name="watcher.message">
+            <de><![CDATA[Event Ausführung]]></de>
+            <en><![CDATA[Event Call]]></en>
+        </locale>
+
+        <locale name="watcher.message.userLogin">
+            <de><![CDATA[Benutzer hat sich eingeloggt.]]></de>
+            <en><![CDATA[User has logged in.]]></en>
+        </locale>
+
+        <locale name="watcher.message.userSave">
+            <de><![CDATA[Benutzer ([uid]) gespeichert.]]></de>
+            <en><![CDATA[User ([uid]) saved.]]></en>
+        </locale>
+        <locale name="watcher.message.userSetPassword">
+            <de><![CDATA[Benutzer ([uid]) Passwort gesetzt.]]></de>
+            <en><![CDATA[Set user ([uid]) password.]]></en>
+        </locale>
+        <locale name="watcher.message.userDisable">
+            <de><![CDATA[Benutzer deaktiviert (disable.)]]></de>
+            <en><![CDATA[Deactivated user (disable).]]></en>
+        </locale>
+        <locale name="watcher.message.userActivate">
+            <de><![CDATA[Benutzer aktiviert ([uid]).]]></de>
+            <en><![CDATA[Activated user ([uid]).]]></en>
+        </locale>
+        <locale name="watcher.message.userDeactivate">
+            <de><![CDATA[Benutzer deaktiviert ([uid]).]]></de>
+            <en><![CDATA[Deactivated user ([uid]).]]></en>
+        </locale>
+        <locale name="watcher.message.userDelete">
+            <de><![CDATA[Benutzer gelöscht ([uid]).]]></de>
+            <en><![CDATA[Delete user ([uid]).]]></en>
+        </locale>
+        <locale name="watcher.message.projectConfigSave">
+            <de><![CDATA[Projekt Konfiguration gespeichert ([project]).]]></de>
+            <en><![CDATA[Saved project configuration ([project]).]]></en>
+        </locale>
+        <locale name="watcher.message.createProject">
+            <de><![CDATA[Projekt erstellt ([project] [lang]).]]></de>
+            <en><![CDATA[Create project ([project] [lang]).]]></en>
+        </locale>
+        <locale name="watcher.message.packageSetup">
+            <de><![CDATA[Paket setup ausgeführt ([package]).]]></de>
+            <en><![CDATA[Execute package setup ([package]).]]></en>
+        </locale>
+        <locale name="watcher.message.packageInstall">
+            <de><![CDATA[Paket installiert ([package]).]]></de>
+            <en><![CDATA[Installed package ([package]).]]></en>
+        </locale>
+        <locale name="watcher.message.packageUninstall">
+            <de><![CDATA[Paket deinstalliert ([package]).]]></de>
+            <en><![CDATA[Uninstalled package ([package]).]]></en>
+        </locale>
+        <locale name="watcher.message.siteActivate">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] aktiviert.]]></de>
+            <en><![CDATA[Activate #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteDeactivate">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] deaktiviert.]]></de>
+            <en><![CDATA[Deactivate #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteSave">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] gespeichert.]]></de>
+            <en><![CDATA[Saved #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteDelete">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] gelöscht.]]></de>
+            <en><![CDATA[Deleted #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteDestroy">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] zerstört.]]></de>
+            <en><![CDATA[Destroyed #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteCreateChild">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] erstellt.]]></de>
+            <en><![CDATA[Created #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.siteMove">
+            <de><![CDATA[Seite #[id] in Projekt [project] [lang] verschoben nach [parentId].]]></de>
+            <en><![CDATA[Moved #[id] page from project [project] [lang] to [parentId].]]></en>
+        </locale>
+        <locale name="watcher.message.mediaActivate">
+            <de><![CDATA[Seite #[id]  in Projekt [project] [lang] aktiviert.]]></de>
+            <en><![CDATA[Activated #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.mediaDeactivate">
+            <de><![CDATA[Seite #[id]  in Projekt [project] [lang] deaktiviert.]]></de>
+            <en><![CDATA[Deactivated #[id] page from project [project] [lang].]]></en>
+        </locale>
+        <locale name="watcher.message.mediaSaveBegin">
+            <de><![CDATA[Media #[id] Datei gespeichert (mediaSaveBegin - [project]).]]></de>
+            <en><![CDATA[Saved #[id] media file (mediaSaveBegin - [project]).]]></en>
+        </locale>
+        <locale name="watcher.message.mediaSave">
+            <de><![CDATA[Media Datei #[id] gespeichert ([project]).]]></de>
+            <en><![CDATA[Saved #[id] media file ([project]).]]></en>
+        </locale>
+        <locale name="watcher.message.mediaDelete">
+            <de><![CDATA[Media Datei #[id] gelöscht ([project]).]]></de>
+            <en><![CDATA[Deleted #[id] media file([project]).]]></en>
+        </locale>
+        <locale name="watcher.message.mediaDeleteBegin">
+            <de><![CDATA[Media Datei #[id] gelöscht (mediaDeleteBegin - [project]).]]></de>
+            <en><![CDATA[Deleted #[id] media file (mediaDeleteBegin - [project]).]]></en>
+        </locale>
+        <locale name="watcher.message.mediaDestroy">
+            <de><![CDATA[Media Datei #[id] im Papierkorb gelöscht. (Datei zerstört - [project])]]></de>
+            <en><![CDATA[Deleted #[id] media file in the trash (File destroyed - [project]).]]></en>
+        </locale>
+        <locale name="watcher.message.mediaRename">
+            <de><![CDATA[Media Datei #[id] umbenannt ([project]).]]></de>
+            <en><![CDATA[Renamed #[id] media file ([project]).]]></en>
+        </locale>
+
+    </groups>
+</locales>
