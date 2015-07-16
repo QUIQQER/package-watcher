@@ -4,16 +4,33 @@
  *
  * @module package/quiqqer/watcher/bin/Panel
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/QUI
+ * @require qui/controls/desktop/Panel
+ * @require qui/controls/messages/Attention
+ * @require qui/utils/Form
+ * @require controls/grid/Grid
+ * @require utils/Template
+ * @require utils/Controls
+ * @require Locale
+ * @require Ajax
+ * @require css!package/quiqqer/watcher/bin/Panel.css
  */
 define('package/quiqqer/watcher/bin/Panel', [
 
     'qui/QUI',
     'qui/controls/desktop/Panel',
+    'qui/controls/messages/Attention',
+    'qui/utils/Form',
     'controls/grid/Grid',
+    'utils/Template',
+    'utils/Controls',
     'Locale',
-    'Ajax'
+    'Ajax',
 
-], function(QUI, QUIPanel, Grid, QUILocale, QUIAjax)
+    'css!package/quiqqer/watcher/bin/Panel.css'
+
+], function(QUI, QUIPanel, QUIAttention, QUIFormUtils, Grid, Template, ControlUtils, QUILocale, QUIAjax)
 {
     "use strict";
 
@@ -26,6 +43,8 @@ define('package/quiqqer/watcher/bin/Panel', [
 
         Binds : [
             'loadData',
+            'openSearch',
+            'openClear',
             '$onCreate',
             '$onResize'
         ],
@@ -54,6 +73,22 @@ define('package/quiqqer/watcher/bin/Panel', [
         $onCreate : function()
         {
             // Buttons
+            this.addButton({
+                text : QUILocale.get(lg, 'panel.button.search.title'),
+                textimage : 'icon-search',
+                events : {
+                    onClick : this.openSearch
+                }
+            });
+
+            // Buttons
+            this.addButton({
+                text : QUILocale.get(lg, 'panel.button.clear.title'),
+                textimage : 'icon-eraser',
+                events : {
+                    onClick : this.openClear
+                }
+            });
 
             // Grid
             var Container = new Element('div').inject(
@@ -103,6 +138,10 @@ define('package/quiqqer/watcher/bin/Panel', [
                 sortOn     : 'statusTime',
                 sortBy     : 'DESC'
             });
+
+            if (this.getAttribute('search')) {
+                this.showSearchDisplay();
+            }
         },
 
         /**
@@ -122,16 +161,22 @@ define('package/quiqqer/watcher/bin/Panel', [
                 return;
             }
 
-            var Body = this.getContent();
+            var Content = this.getContent();
 
-            if (!Body) {
+            if (!Content) {
                 return;
             }
 
 
-            var size = Body.getSize();
+            var size = Content.getSize(),
+                Attention = Content.getElement('.messages-message');
 
-            this.$Grid.setHeight(size.y - 40);
+            if (Attention) {
+                this.$Grid.setHeight(size.y - Attention.getSize().y - 60);
+            } else {
+                this.$Grid.setHeight(size.y - 40);
+            }
+
             this.$Grid.setWidth(size.x - 40);
         },
 
@@ -149,6 +194,12 @@ define('package/quiqqer/watcher/bin/Panel', [
             var self = this;
             var options = this.$Grid.options;
 
+            var search = false;
+
+            if (this.getAttribute('search')) {
+                search = JSON.encode(this.getAttribute('search'));
+            }
+
             QUIAjax.get('package_quiqqer_watcher_ajax_list', function(result)
             {
                 self.$Grid.setData(result);
@@ -161,8 +212,202 @@ define('package/quiqqer/watcher/bin/Panel', [
                     sortBy  : options.sortBy,
                     perPage : options.perPage,
                     page    : options.page
-                })
+                }),
+                search : search
             });
+        },
+
+        /**
+         * Open search sheet
+         */
+        openSearch : function()
+        {
+            var self = this;
+
+            var Sheet = this.createSheet({
+                title : QUILocale.get(lg, 'panel.search.title'),
+                icon : 'icon-search',
+                closeButton : {
+                    textimage : 'icon-remove fa fa-remove',
+                    text      : QUILocale.get(lg, 'panel.search.button.close')
+                },
+                events : {
+                    onOpen : function(Sheet) {
+
+                        self.Loader.show();
+
+                        var Content = Sheet.getContent(),
+                            search  = self.getAttribute('search');
+
+                        Content.addClass('quiqqer-watcher-search');
+
+                        Template.get('bin/PanelSearch', function(result) {
+
+                            Content.set({
+                                html : result,
+                                styles : {
+                                    padding : 20
+                                }
+                            });
+
+                            QUIFormUtils.setDataToForm(
+                                search,
+                                Content.getElement('form')
+                            );
+
+                            ControlUtils.parse(Content).then(function() {
+                                self.Loader.hide();
+                            });
+
+                        }, {
+                            'package' : 'quiqqer/watcher'
+                        });
+                    }
+                }
+            });
+
+            Sheet.addButton({
+                text      : QUILocale.get(lg, 'panel.search.button.search'),
+                textimage : 'icon-search',
+                events : {
+                    onClick : function() {
+
+                        var data = QUIFormUtils.getFormData(
+                            Sheet.getContent().getElement('form')
+                        );
+
+                        self.setAttributes({
+                            search : {
+                                uid  : data.uid,
+                                from : data.from,
+                                to   : data.to
+                            }
+                        });
+
+                        Sheet.hide();
+
+                        self.loadData();
+                        self.showSearchDisplay();
+                    }
+                }
+            });
+
+            Sheet.show();
+        },
+
+        /**
+         * open clear sheet
+         */
+        openClear : function()
+        {
+            var self = this;
+
+            var Sheet = this.createSheet({
+                title : QUILocale.get(lg, 'panel.clear.title'),
+                icon : 'icon-search',
+                closeButton : {
+                    textimage : 'icon-remove fa fa-remove',
+                    text      : QUILocale.get('quiqqer/system', 'cancel')
+                },
+                events : {
+                    onOpen : function(Sheet) {
+
+                        self.Loader.show();
+
+                        var Content = Sheet.getContent();
+
+                        Content.addClass('quiqqer-watcher-clear');
+
+                        Template.get('bin/PanelClear', function(result) {
+
+                            Content.set({
+                                html : result,
+                                styles : {
+                                    padding : 20
+                                }
+                            });
+
+                            ControlUtils.parse(Content).then(function() {
+                                self.Loader.hide();
+                            });
+
+                        }, {
+                            'package' : 'quiqqer/watcher'
+                        });
+                    }
+                }
+            });
+
+            Sheet.addButton({
+                text      : QUILocale.get('quiqqer/system', 'panel.clear.btn.execute'),
+                textimage : 'icon-eraser',
+                events : {
+                    onClick : function() {
+
+                        self.Loader.show();
+
+                        var Content = Sheet.getContent(),
+                            date = '';
+
+                        if (Content.getElement('[name="watcher-clear-date"]')) {
+                            date = Content.getElement('[name="watcher-clear-date"]').value;
+                        }
+
+                        if (!date || date === '') {
+                            self.Loader.hide();
+                            return;
+                        }
+
+                        QUIAjax.post('package_quiqqer_watcher_ajax_clear', function() {
+
+                            Sheet.hide();
+                            self.loadData();
+
+                        }, {
+                            'package' : 'quiqqer/watcher',
+                            date : date
+                        });
+
+                    }
+                }
+            });
+
+            Sheet.show();
+        },
+
+        /**
+         * Show search display
+         */
+        showSearchDisplay : function()
+        {
+            if (this.getContent().getElement('.messages-message')) {
+                return;
+            }
+
+            var self = this;
+
+            new QUIAttention({
+                message : QUILocale.get(lg, 'grid.search.info'),
+                events  :
+                {
+                    onClick : function(Message)
+                    {
+                        self.setAttribute('search', false);
+
+                        Message.destroy();
+
+                        self.loadData();
+                        self.$onResize();
+                    }
+                },
+                styles  : {
+                    margin : '0 0 20px',
+                    'border-width' : 1,
+                    cursor : 'pointer'
+                }
+            }).inject(this.getContent(), 'top');
+
+            this.$onResize();
         }
     });
 

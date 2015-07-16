@@ -2,5 +2,6 @@
 <permissions>
 
     <permission name="quiqqer.watcher.readlog" type="bool" />
+    <permission name="quiqqer.watcher.clearlog" type="bool" />
 
 </permissions>

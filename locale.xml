@@ -17,6 +17,44 @@
             <de><![CDATA[Aufruf-Parameter]]></de>
             <en><![CDATA[Call parameters]]></en>
         </locale>
+        <locale name="grid.search.info" html="true">
+            <de><![CDATA[Suchparameter sind aktiviert.<br />
+                Klicken Sie hier um die Suche zu beenden und alle Benutzer wieder anzeigen zu lassen.]]></de>
+            <en><![CDATA[Search parameters are activated. <br />
+                Click here to end the search and to display all users again.]]></en>
+        </locale>
+
+        <locale name="panel.button.search.title">
+            <de><![CDATA[Suche]]></de>
+            <en><![CDATA[Search]]></en>
+        </locale>
+        <locale name="panel.button.clear.title">
+            <de><![CDATA[Watcher-Log leeren bis...]]></de>
+            <en><![CDATA[Watcher-Log leeren bis...]]></en>
+        </locale>
+
+        <locale name="panel.search.title">
+            <de><![CDATA[Watch-Log Suche]]></de>
+            <en><![CDATA[Watch-Log search]]></en>
+        </locale>
+        <locale name="panel.search.button.close">
+            <de><![CDATA[Suche schließen]]></de>
+            <en><![CDATA[Close search]]></en>
+        </locale>
+        <locale name="panel.search.button.search">
+            <de><![CDATA[Suche starten]]></de>
+            <en><![CDATA[Start search]]></en>
+        </locale>
+
+        <locale name="panel.clear.title">
+            <de><![CDATA[Watch-Log leeren]]></de>
+            <en><![CDATA[Watch-Log clear]]></en>
+        </locale>
+        <locale name="panel.clear.btn.execute">
+            <de><![CDATA[Watcher-Log leeren ausführen]]></de>
+            <en><![CDATA[Run clearing Watch-Log]]></en>
+        </locale>
+
 
     </groups>
 
@@ -29,12 +67,26 @@
             <de><![CDATA[Darf Watch-Logs aufrufen und lesen]]></de>
             <en><![CDATA[May retrieve and read Watch logs]]></en>
         </locale>
+        <locale name="panel.clear.text" html="true">
+            <de><![CDATA[
+                <h1>Leeren Sie die Watch-Log.</h1>
+                Alle Daten vor dem angegebenen Datum werden unwiederruflich gelöscht.
+            ]]></de>
+            <en><![CDATA[
+                <h1>Clear the watch log.</h1>
+                All data before the specified date will be deleted irrevocably.
+            ]]></en>
+        </locale>
+        <locale name="exception.quiqqer.watcher.clearlog.error.wrongDateFormat">
+            <de><![CDATA[Das leeren der Watch-Log hat leider nicht funktioniert. Das Datumsformat hat ein falsches Format.]]></de>
+            <en><![CDATA[The clearing of the Watch-Log did not work. The date format has an incorrect format.]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php,js">
         <locale name="title">
-            <de><![CDATA[Watcher]]></de>
-            <en><![CDATA[Watcher]]></en>
+            <de><![CDATA[Wacther-Log konnte nicht geleert werden. Das Datumsformat ist nicht korrekt.]]></de>
+            <en><![CDATA[Wacther log could not be cleards. The date format is incorrect.]]></en>
         </locale>
         <locale name="menu.watcher.text">
             <de><![CDATA[Watcher]]></de>

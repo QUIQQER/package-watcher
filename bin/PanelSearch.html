@@ -1,0 +1,34 @@
+<form>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Suche</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="{cycle values="odd,even" reset="true"}">
+                <td><label for="watcher-search-user_id">Benutzer-ID</label></td>
+                <td><input type="text" id="watcher-search-user_id" name="uid" class="user" /></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>Datum</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="{cycle values="odd,even" reset="true"}">
+            <td><label for="watcher-search-from">Von</label></td>
+            <td><input type="datetime" id="watcher-search-from" name="from" /></td>
+        </tr>
+        <tr class="{cycle values="odd,even"}">
+            <td><label for="watcher-search-to">Bis</label></td>
+            <td><input type="datetime" id="watcher-search-to" name="to" /></td>
+        </tr>
+    </tbody>
+
+</form>

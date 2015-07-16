@@ -1,0 +1,12 @@
+
+.quiqqer-watcher-search tbody tr td:first-child {
+    width: 200px;
+}
+
+.quiqqer-watcher-clear-message {
+    margin-bottom: 20px;
+}
+
+.quiqqer-watcher-clear-message h1 {
+    margin: 0 0 20px 0;
+}

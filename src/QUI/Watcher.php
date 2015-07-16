@@ -155,12 +155,15 @@ class Watcher
     /**
      * Return the watcher-log list
      *
-     * @param array $params - database query params (eq: order, limit)
+     * @param array      $params - database query params (eq: order, limit)
+     * @param array|bool $search - search parameter
      *
      * @return array
      */
-    static function getList($params = array())
+    static function getList($params = array(), $search = false)
     {
+        $PDO = QUI::getDataBase()->getPDO();
+
         if (!isset($params['order'])) {
             $params['order'] = 'statusTime';
         }
@@ -169,42 +172,122 @@ class Watcher
             $params['limit'] = 0;
         }
 
+        $query = 'SELECT * ';
 
+        if (isset($params['count'])) {
+            $query = 'SELECT COUNT(*) as count ';
+        }
+
+        $query .= ' FROM '.QUI::getDBTableName('watcher');
+
+
+        // search
+        if (is_array($search)) {
+            $searchQuery = array();
+
+            if ($search['uid'] && !empty($search['uid'])) {
+                $searchQuery[] = 'uid = :uid';
+            }
+
+            if ($search['from'] && !empty($search['from'])) {
+                $searchQuery[] = 'statusTime >= :from';
+            }
+
+            if ($search['to'] && !empty($search['to'])) {
+                $searchQuery[] = 'statusTime <= :to';
+            }
+
+            $query .= ' WHERE '.implode(' AND ', $searchQuery);
+        }
+
+
+        // order
         switch ($params['order']) {
             case 'id':
             case 'id DESC':
             case 'id ASC':
+                $query .= ' ORDER BY '.$params['order'];
                 break;
 
             case 'uid':
             case 'uid DESC':
             case 'statusTime':
             case 'statusTime DESC':
-                $params['order'] = $params['order'].', id DESC';
+                $query .= ' ORDER BY '.$params['order'].', id DESC';
                 break;
 
             case 'uid ASC':
             case 'statusTime ASC':
-                $params['order'] = $params['order'].', id ASC';
+                $query .= ' ORDER BY '.$params['order'].', id ASC';
                 break;
 
             default:
-                $params['order'] = 'statusTime ASC';
+                $query .= ' ORDER BY statusTime ASC';
         }
 
-        $params['from'] = QUI::getDBTableName('watcher');
+        // limit
+        if ($params['limit'] !== false) {
+            $query .= ' LIMIT :limit1, :limit2';
+        }
 
-        return QUI::getDataBase()->fetch($params);
+
+        $Statement = $PDO->prepare($query);
+
+        // prepared statements
+        if ($params['limit'] !== false) {
+            if (strpos($params['limit'], ',') === false) {
+                $limit1 = 0;
+                $limit2 = (int)$params['limit'];
+            } else {
+
+                $params['limit'] = explode(',', $params['limit']);
+
+                $limit1 = (int)$params['limit'][0];
+                $limit2 = (int)$params['limit'][1];
+            }
+
+            $Statement->bindValue(':limit1', $limit1, \PDO::PARAM_INT);
+            $Statement->bindValue(':limit2', $limit2, \PDO::PARAM_INT);
+        }
+
+        if (is_array($search)) {
+            if ($search['uid'] && !empty($search['uid'])) {
+                $Statement->bindValue(':uid', $search['uid'], \PDO::PARAM_STR);
+            }
+
+            if ($search['from'] && !empty($search['from'])) {
+                $Statement->bindValue(':from', $search['from'],
+                    \PDO::PARAM_STR);
+            }
+
+            if ($search['to'] && !empty($search['to'])) {
+                $Statement->bindValue(':to', $search['to'], \PDO::PARAM_STR);
+            }
+        }
+
+
+        try {
+            $Statement->execute();
+
+        } catch (\PDOException $Exception) {
+
+            QUI\System\Log::writeException($Exception);
+
+            return array();
+        }
+
+        return $Statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
      * Return the result list for a Grid control
      *
-     * @param array $params
+     * @param array      $params - database query params (eq: order, limit)
+     * @param array|bool $search - search parameter
      *
      * @return array
      */
-    static function getGridList($params = array())
+    static function getGridList($params = array(), $search = false)
     {
         $Grid = new QUI\Utils\Grid();
         $dbParams = $Grid->parseDBParams($params);
@@ -215,6 +298,12 @@ class Watcher
 
         if (!isset($params['sortOn'])) {
             $params['sortBy'] = 'DESC';
+        }
+
+        if (isset($params['perPage']) && isset($params['page'])) {
+            $params['limit']
+                = (($params['page'] - 1) * $params['perPage']).','
+                .$params['perPage'];
         }
 
         $order = $params['sortOn'].' '.$params['sortBy'];
@@ -232,9 +321,8 @@ class Watcher
                 $order = 'statusTime DESC';
         }
 
-
         $dbParams['order'] = $order;
-        $result = self::getList($dbParams);
+        $result = self::getList($dbParams, $search);
 
         foreach ($result as $key => $value) {
 
@@ -262,19 +350,40 @@ class Watcher
         }
 
         $dbParams['limit'] = false;
-        $dbParams['count'] = 'count';
-        $count = self::getList($dbParams);
+        $dbParams['count'] = true;
+        $count = self::getList($dbParams, $search);
 
         return $Grid->parseResult($result, $count[0]['count']);
     }
 
-
     /**
+     * Clear the Watcher-Log
      *
-     * @param $date
+     * @param string $date - date
+     *
+     * @throws QUI\Exception
      */
-    static function clean($date)
+    static function clear($date)
     {
+        QUI\Rights\Permission::checkPermission('quiqqer.watcher.clearlog');
 
+        $date = strtotime($date);
+
+        if (!$date) {
+            throw new QUI\Exception(
+                QUI::getLocale()->get(
+                    'quiqqer/watcher',
+                    'exception.quiqqer.watcher.clearlog.error.wrongDateFormat'
+                )
+            );
+        }
+
+
+        QUI::getDataBase()->delete(QUI::getDBTableName('watcher'), array(
+            'statusTime' => array(
+                'type'  => '<=',
+                'value' => date('Y-m-d H:i:s', $date)
+            )
+        ));
     }
 }
