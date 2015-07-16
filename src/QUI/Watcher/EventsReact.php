@@ -17,6 +17,11 @@ use QUI;
 class EventsReact
 {
     /**
+     * @var null
+     */
+    protected static $_watcherEvents = null;
+
+    /**
      *
      * @param string $event
      * @param array  $arguments
@@ -49,7 +54,6 @@ class EventsReact
             return;
         }
 
-
         // smarty events
         if ($event == 'smartyInit') {
             return;
@@ -61,32 +65,9 @@ class EventsReact
 
         $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
 
-        // ajax event
-        if ($event == 'ajaxCall') {
-
-            if (!$Config->getValue('settings', 'logAjax')) {
-                return;
-            }
-
-            // @todo ajax registrierungen
-            // @todo watcher.xml
-
-
-            QUI\Watcher::add(
-                'quiqqer/watcher',
-                'watcher.message.ajax',
-                $arguments['function'],
-                $arguments['params']
-            );
-
-            return;
-        }
-
         if (!$Config->getValue('settings', 'logEvents')) {
             return;
         }
-
-//        $var = 'watcher.message';
 
         switch ($event) {
             case 'userLogin':
@@ -116,15 +97,142 @@ class EventsReact
             case 'mediaDeleteBegin':
             case 'mediaDestroy':
             case 'mediaRename':
-                $var = 'watcher.message.'.$event;
-                break;
 
-            default:
-                // @todo watcher.xml
+                QUI\Watcher::add(
+                    'quiqqer/watcher',
+                    'watcher.message.'.$event,
+                    $event,
+                    $arguments,
+                    $arguments
+                );
+
                 return;
         }
 
-        QUI\Watcher::add('quiqqer/watcher', $var, $event, $arguments, $arguments);
+
+        $events = self::_getWatchEvents();
+
+        if (!isset($events['event'][$event])) {
+            return;
+        }
+
+        $data = $exec = $events['event'][$event];
+
+        foreach ($data as $entry) {
+
+            $exec = $entry['exec'];
+
+            if (is_callable($exec)) {
+
+                try {
+
+                    $str = call_user_func_array($exec, array(
+                        'event'  => $event,
+                        'params' => $arguments
+                    ));
+
+                    QUI\Watcher::addString($str, $event, $arguments);
+
+                } catch (\Exception $Exception) {
+                    QUI\System\Log::writeException($Exception);
+                }
+            }
+        }
+    }
+
+    /**
+     * event on ajax call - React at ajax events
+     *
+     * @param string $function
+     * @param string $result
+     * @param array  $params
+     */
+    static function onAjaxCall($function, $result, $params)
+    {
+        $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
+
+        if (!$Config->getValue('settings', 'logAjax')) {
+            return;
+        }
+
+        $events = self::_getWatchEvents();
+
+        if (!isset($events['ajax'][$function])) {
+            return;
+        }
+
+        $data = $exec = $events['ajax'][$function];
+
+        foreach ($data as $entry) {
+
+            $exec = $entry['exec'];
+
+            if (is_callable($exec)) {
+                try {
+
+                    $str = call_user_func_array($exec, array(
+                        'ajax'   => $function,
+                        'params' => $params,
+                        'result' => $result
+                    ));
+
+                    QUI\Watcher::addString($str, $function, $params);
+
+                } catch (\Exception $Exception) {
+                    QUI\System\Log::writeException($Exception);
+                }
+            }
+        }
+    }
+
+    /**
+     * Register watch events
+     */
+    static function onHeaderLoaded()
+    {
+        $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
+
+        if (!$Config->getValue('settings', 'logEvents')) {
+            return;
+        }
+
+        $events = self::_getWatchEvents();
+
+        if (!isset($events['event']) || empty($events['event'])) {
+            return;
+        }
+
+        $Events = QUI::getEvents();
+
+        foreach ($events['event'] as $event => $data) {
+
+            foreach ($data as $eventData) {
+
+                $Events->addEvent($event, function () use ($eventData) {
+
+                    $exec = $eventData['exec'];
+
+                    if (!is_callable($exec)) {
+                        return;
+                    }
+
+                    try {
+
+                        $str = call_user_func_array($exec, array(
+                            'event'  => $eventData['event'],
+                            'params' => func_get_args()
+                        ));
+
+                        QUI\Watcher::addString($str, $eventData['event']);
+
+                    } catch (\Exception $Exception) {
+                        QUI\System\Log::writeException($Exception);
+                    }
+                });
+
+            }
+
+        }
     }
 
     /**
@@ -134,7 +242,9 @@ class EventsReact
      */
     static function onUserSave($User)
     {
-        self::trigger('userSave', $User);
+        self::trigger('userSave', array(
+            'uid' => $User->getId()
+        ));
     }
 
     /**
@@ -473,5 +583,32 @@ class EventsReact
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
         ));
+    }
+
+    /**
+     * Return the global watch events -> from watch.xml's
+     *
+     * @return array
+     */
+    protected static function _getWatchEvents()
+    {
+        if (!self::$_watcherEvents) {
+            $result = QUI::getDataBase()->fetch(array(
+                'from' => QUI::getDBTableName('watcherEvents')
+            ));
+
+            foreach ($result as $entry) {
+
+                if (!empty($entry['ajax'])) {
+                    self::$_watcherEvents['ajax'][$entry['ajax']][] = $entry;
+                }
+
+                if (!empty($entry['event'])) {
+                    self::$_watcherEvents['event'][$entry['event']][] = $entry;
+                }
+            }
+        }
+
+        return self::$_watcherEvents;
     }
 }

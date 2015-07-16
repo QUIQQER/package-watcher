@@ -37,7 +37,6 @@ class Watcher
      */
     protected static $_checked = array();
 
-
     /**
      * Add a simple string to the watch-log
      *
@@ -56,7 +55,7 @@ class Watcher
         }
 
         QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), array(
-            'text'       => $message,
+            'message'    => $message,
             'call'       => $call,
             'callParams' => json_encode($callParams),
             'uid'        => QUI::getUserBySession()->getId(),
@@ -385,5 +384,60 @@ class Watcher
                 'value' => date('Y-m-d H:i:s', $date)
             )
         ));
+    }
+
+    /**
+     * @param Package\Package $Package
+     */
+    static function onPackageSetup(QUI\Package\Package $Package)
+    {
+        $dir = $Package->getDir();
+        $watcherXml = $dir.'watch.xml';
+
+        if (!file_exists($watcherXml)) {
+            return;
+        }
+
+        $Dom = QUI\Utils\XML::getDomFromXml($watcherXml);
+        $Path = new \DOMXPath($Dom);
+
+        $watchList = $Path->query("//quiqqer/watch");
+        $table = QUI::getDBTableName('watcherEvents');
+        $package = $Package->getName();
+
+        // clear watches of package
+        QUI::getDataBase()->delete($table, array(
+            'package' => $package
+        ));
+
+        // insert watches
+        foreach ($watchList as $Watch) {
+
+            /* @var $Watch \DOMElement */
+            $ajax = $Watch->getAttribute('ajax');
+            $exec = $Watch->getAttribute('exec');
+            $event = $Watch->getAttribute('event');
+
+            if (!$exec || !is_callable($exec)) {
+                continue;
+            }
+
+            if ($ajax) {
+
+                QUI::getDataBase()->insert($table, array(
+                    'package' => $package,
+                    'ajax'    => $ajax,
+                    'exec'    => $exec
+                ));
+
+                continue;
+            }
+
+            QUI::getDataBase()->insert($table, array(
+                'package' => $package,
+                'event'   => $event,
+                'exec'    => $exec
+            ));
+        }
     }
 }

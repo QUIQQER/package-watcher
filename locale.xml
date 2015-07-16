@@ -55,7 +55,6 @@
             <en><![CDATA[Run clearing Watch-Log]]></en>
         </locale>
 
-
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php">

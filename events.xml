@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <events>
 
-    <!--
-    <event on="onFireEvent" fire="\QUI\Watcher\EventsReact::trigger" />
-    -->
+    <event on="onPackageSetup" fire="\QUI\Watcher::onPackageSetup" />
+    <event on="onHeaderLoaded" fire="\QUI\Watcher\EventsReact::onHeaderLoaded" />
+
+    <event on="onAjaxCall" fire="\QUI\Watcher\EventsReact::onAjaxCall" />
     <event on="onUserSave" fire="\QUI\Watcher\EventsReact::onUserSave" />
     <event on="onUserSetPassword" fire="\QUI\Watcher\EventsReact::onUserSetPassword" />
     <event on="onUserDisable" fire="\QUI\Watcher\EventsReact::onUserDisable" />

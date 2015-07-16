@@ -16,6 +16,17 @@
             <primary>id</primary>
             <auto_increment>id</auto_increment>
         </table>
+
+        <table name="watcherEvents" no-site-reference="1" no-auto-update="1">
+            <field type="INT(11) NOT NULL">id</field>
+            <field type="VARCHAR(255)">package</field>
+            <field type="VARCHAR(255)">ajax</field>
+            <field type="VARCHAR(255)">event</field>
+            <field type="TEXT">exec</field>
+
+            <primary>id</primary>
+            <auto_increment>id</auto_increment>
+        </table>
     </global>
 
 </database>
