@@ -6,7 +6,7 @@ Das Paket stellt eine Art Protokollant zur Verfügung. Aktionen für bestimmte G
 
 Packetname:
 
-    quiqqer/slider
+    quiqqer/watcher
 
 
 Features
