@@ -9,16 +9,14 @@
  *
  * @return array
  */
-function package_quiqqer_watcher_ajax_list($params, $search)
-{
-    if ($search) {
-        $search = json_decode($search, true);
-    }
+QUI::$Ajax->registerFunction(
+    function ($params, $search) {
+        if ($search) {
+            $search = json_decode($search, true);
+        }
 
-    return QUI\Watcher::getGridList(json_decode($params, true), $search);
-}
-
-QUI::$Ajax->register(
+        return QUI\Watcher::getGridList(json_decode($params, true), $search);
+    },
     'package_quiqqer_watcher_ajax_list',
     array('params', 'search'),
     array('Permission::checkAdminUser', 'quiqqer.watcher.readlog')

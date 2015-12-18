@@ -19,14 +19,14 @@ class EventsReact
     /**
      * @var null
      */
-    protected static $_watcherEvents = null;
+    protected static $watcherEvents = null;
 
     /**
      *
      * @param string $event
      * @param array  $arguments
      */
-    static function trigger($event, $arguments = array())
+    public static function trigger($event, $arguments = array())
     {
         if (!is_string($event)) {
             return;
@@ -59,7 +59,7 @@ class EventsReact
             return;
         }
 
-        if (!QUI::getUserBySession()->isAdmin()) {
+        if (!QUI::getUserBySession()->canUseBackend()) {
             return;
         }
 
@@ -97,7 +97,6 @@ class EventsReact
             case 'mediaDeleteBegin':
             case 'mediaDestroy':
             case 'mediaRename':
-
                 QUI\Watcher::add(
                     'quiqqer/watcher',
                     'watcher.message.'.$event,
@@ -110,7 +109,7 @@ class EventsReact
         }
 
 
-        $events = self::_getWatchEvents();
+        $events = self::getWatchEvents();
 
         if (!isset($events['event'][$event])) {
             return;
@@ -119,13 +118,10 @@ class EventsReact
         $data = $exec = $events['event'][$event];
 
         foreach ($data as $entry) {
-
             $exec = $entry['exec'];
 
             if (is_callable($exec)) {
-
                 try {
-
                     $str = call_user_func_array($exec, array(
                         'event'  => $event,
                         'params' => $arguments
@@ -147,7 +143,7 @@ class EventsReact
      * @param string $result
      * @param array  $params
      */
-    static function onAjaxCall($function, $result, $params)
+    public static function onAjaxCall($function, $result, $params)
     {
         $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
 
@@ -155,7 +151,7 @@ class EventsReact
             return;
         }
 
-        $events = self::_getWatchEvents();
+        $events = self::getWatchEvents();
 
         if (!isset($events['ajax'][$function])) {
             return;
@@ -164,12 +160,10 @@ class EventsReact
         $data = $exec = $events['ajax'][$function];
 
         foreach ($data as $entry) {
-
             $exec = $entry['exec'];
 
             if (is_callable($exec)) {
                 try {
-
                     $str = call_user_func_array($exec, array(
                         'ajax'   => $function,
                         'params' => $params,
@@ -188,7 +182,7 @@ class EventsReact
     /**
      * Register watch events
      */
-    static function onHeaderLoaded()
+    public static function onHeaderLoaded()
     {
         $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
 
@@ -196,7 +190,7 @@ class EventsReact
             return;
         }
 
-        $events = self::_getWatchEvents();
+        $events = self::getWatchEvents();
 
         if (!isset($events['event']) || empty($events['event'])) {
             return;
@@ -205,9 +199,7 @@ class EventsReact
         $Events = QUI::getEvents();
 
         foreach ($events['event'] as $event => $data) {
-
             foreach ($data as $eventData) {
-
                 $Events->addEvent($event, function () use ($eventData) {
 
                     $exec = $eventData['exec'];
@@ -217,7 +209,6 @@ class EventsReact
                     }
 
                     try {
-
                         $str = call_user_func_array($exec, array(
                             'event'  => $eventData['event'],
                             'params' => func_get_args()
@@ -240,7 +231,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserSave($User)
+    public static function onUserSave($User)
     {
         self::trigger('userSave', array(
             'uid' => $User->getId()
@@ -252,7 +243,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserSetPassword($User)
+    public static function onUserSetPassword($User)
     {
         self::trigger('userSetPassword', array(
             'uid' => $User->getId()
@@ -264,7 +255,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserDisable($User)
+    public static function onUserDisable($User)
     {
         self::trigger('userDisable', array(
             'uid' => $User->getId()
@@ -276,7 +267,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserActivate($User)
+    public static function onUserActivate($User)
     {
         self::trigger('userActivate', array(
             'uid' => $User->getId()
@@ -288,7 +279,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserDeactivate($User)
+    public static function onUserDeactivate($User)
     {
         self::trigger('userDeactivate', array(
             'uid' => $User->getId()
@@ -300,7 +291,7 @@ class EventsReact
      *
      * @param QUI\Users\User $User
      */
-    static function onUserDelete($User)
+    public static function onUserDelete($User)
     {
         self::trigger('userDelete', array(
             'uid' => $User->getId()
@@ -313,7 +304,7 @@ class EventsReact
      * @param string $project
      * @param array  $config
      */
-    static function onProjectConfigSave($project, $config)
+    public static function onProjectConfigSave($project, $config)
     {
         self::trigger('projectConfigSave', array(
             'project' => $project,
@@ -326,7 +317,7 @@ class EventsReact
      *
      * @param QUI\Projects\Project $Project
      */
-    static function onCreateProject($Project)
+    public static function onCreateProject($Project)
     {
         self::trigger('createProject', array(
             'project' => $Project->getName(),
@@ -339,7 +330,7 @@ class EventsReact
      *
      * @param QUI\Package\Package $Package
      */
-    static function onPackageSetup($Package)
+    public static function onPackageSetup($Package)
     {
         self::trigger('packageSetup', array(
             'package' => $Package->getName()
@@ -351,7 +342,7 @@ class EventsReact
      *
      * @param QUI\Package\Package $Package
      */
-    static function onPackageInstall($Package)
+    public static function onPackageInstall($Package)
     {
         self::trigger('packageInstall', array(
             'package' => $Package->getName()
@@ -363,7 +354,7 @@ class EventsReact
      *
      * @param string $packageName
      */
-    static function onPackageUninstall($packageName)
+    public static function onPackageUninstall($packageName)
     {
         self::trigger('packageUninstall', array(
             'package' => $packageName
@@ -375,7 +366,7 @@ class EventsReact
      *
      * @param QUI\Projects\Site $Site
      */
-    static function onSiteActivate($Site)
+    public static function onSiteActivate($Site)
     {
         self::trigger('siteActivate', array(
             'id'      => $Site->getId(),
@@ -389,7 +380,7 @@ class EventsReact
      *
      * @param QUI\Projects\Site $Site
      */
-    static function onSiteDeactivate($Site)
+    public static function onSiteDeactivate($Site)
     {
         self::trigger('siteDeactivate', array(
             'id'      => $Site->getId(),
@@ -403,7 +394,7 @@ class EventsReact
      *
      * @param QUI\Projects\Site $Site
      */
-    static function onSiteSave($Site)
+    public static function onSiteSave($Site)
     {
         self::trigger('siteSave', array(
             'id'      => $Site->getId(),
@@ -418,7 +409,7 @@ class EventsReact
      * @param integer              $siteId
      * @param QUI\Projects\Project $Project
      */
-    static function onSiteDelete($siteId, $Project)
+    public static function onSiteDelete($siteId, $Project)
     {
         self::trigger('siteDelete', array(
             'id'      => $siteId,
@@ -432,7 +423,7 @@ class EventsReact
      *
      * @param QUI\Projects\Site $Site
      */
-    static function onSiteDestroy($Site)
+    public static function onSiteDestroy($Site)
     {
         self::trigger('siteDestroy', array(
             'id'      => $Site->getId(),
@@ -447,7 +438,7 @@ class EventsReact
      * @param integer           $newId
      * @param QUI\Projects\Site $Parent
      */
-    static function onSiteCreateChild($newId, $Parent)
+    public static function onSiteCreateChild($newId, $Parent)
     {
         self::trigger('siteCreateChild', array(
             'newid'   => $newId,
@@ -463,7 +454,7 @@ class EventsReact
      * @param QUI\Projects\Site $Site
      * @param integer           $parentId
      */
-    static function onSiteMove($Site, $parentId)
+    public static function onSiteMove($Site, $parentId)
     {
         self::trigger('siteMove', array(
             'parentId' => $parentId,
@@ -478,7 +469,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaActivate($Item)
+    public static function onMediaActivate($Item)
     {
         self::trigger('mediaActivate', array(
             'id'      => $Item->getId(),
@@ -492,7 +483,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaDeactivate($Item)
+    public static function onMediaDeactivate($Item)
     {
         self::trigger('mediaDeactivate', array(
             'id'      => $Item->getId(),
@@ -506,7 +497,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaSaveBegin($Item)
+    public static function onMediaSaveBegin($Item)
     {
         self::trigger('mediaSaveBegin', array(
             'id'      => $Item->getId(),
@@ -520,7 +511,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaSave($Item)
+    public static function onMediaSave($Item)
     {
         self::trigger('mediaSave', array(
             'id'      => $Item->getId(),
@@ -534,7 +525,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaDelete($Item)
+    public static function onMediaDelete($Item)
     {
         self::trigger('mediaDelete', array(
             'id'      => $Item->getId(),
@@ -548,7 +539,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaDeleteBegin($Item)
+    public static function onMediaDeleteBegin($Item)
     {
         self::trigger('mediaDeleteBegin', array(
             'id'      => $Item->getId(),
@@ -562,7 +553,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaDestroy($Item)
+    public static function onMediaDestroy($Item)
     {
         self::trigger('mediaDestroy', array(
             'id'      => $Item->getId(),
@@ -576,7 +567,7 @@ class EventsReact
      *
      * @param QUI\Projects\Media\Item $Item
      */
-    static function onMediaRename($Item)
+    public static function onMediaRename($Item)
     {
         self::trigger('mediaRename', array(
             'id'      => $Item->getId(),
@@ -590,25 +581,24 @@ class EventsReact
      *
      * @return array
      */
-    protected static function _getWatchEvents()
+    protected static function getWatchEvents()
     {
-        if (!self::$_watcherEvents) {
+        if (!self::$watcherEvents) {
             $result = QUI::getDataBase()->fetch(array(
                 'from' => QUI::getDBTableName('watcherEvents')
             ));
 
             foreach ($result as $entry) {
-
                 if (!empty($entry['ajax'])) {
-                    self::$_watcherEvents['ajax'][$entry['ajax']][] = $entry;
+                    self::$watcherEvents['ajax'][$entry['ajax']][] = $entry;
                 }
 
                 if (!empty($entry['event'])) {
-                    self::$_watcherEvents['event'][$entry['event']][] = $entry;
+                    self::$watcherEvents['event'][$entry['event']][] = $entry;
                 }
             }
         }
 
-        return self::$_watcherEvents;
+        return self::$watcherEvents;
     }
 }
