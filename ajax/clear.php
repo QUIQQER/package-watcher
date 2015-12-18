@@ -10,10 +10,10 @@
  * @return array
  */
 QUI::$Ajax->registerFunction(
+    'package_quiqqer_watcher_ajax_clear',
     function ($date) {
         QUI\Watcher::clear($date);
     },
-    'package_quiqqer_watcher_ajax_clear',
     array('date'),
     array('Permission::checkAdminUser', 'quiqqer.watcher.clearlog')
 );

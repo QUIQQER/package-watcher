@@ -10,6 +10,7 @@
  * @return array
  */
 QUI::$Ajax->registerFunction(
+    'package_quiqqer_watcher_ajax_list',
     function ($params, $search) {
         if ($search) {
             $search = json_decode($search, true);
@@ -17,7 +18,6 @@ QUI::$Ajax->registerFunction(
 
         return QUI\Watcher::getGridList(json_decode($params, true), $search);
     },
-    'package_quiqqer_watcher_ajax_list',
     array('params', 'search'),
     array('Permission::checkAdminUser', 'quiqqer.watcher.readlog')
 );
