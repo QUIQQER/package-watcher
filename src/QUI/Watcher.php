@@ -365,12 +365,10 @@ class Watcher
         $date = strtotime($date);
 
         if (!$date) {
-            throw new QUI\Exception(
-                QUI::getLocale()->get(
-                    'quiqqer/watcher',
-                    'exception.quiqqer.watcher.clearlog.error.wrongDateFormat'
-                )
-            );
+            throw new QUI\Exception(array(
+                'quiqqer/watcher',
+                'exception.quiqqer.watcher.clearlog.error.wrongDateFormat'
+            ));
         }
 
 
