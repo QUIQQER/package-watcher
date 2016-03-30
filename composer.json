@@ -1,28 +1,26 @@
 {
-    "name" : "quiqqer/watcher",
-    "type" : "quiqqer-plugin",
-    "description" : "",
-
-    "version" : "dev-dev",
-
-    "authors" : [{
-        "name": "Henning Leutz",
-        "email": "leutz@pcsg.de",
-        "homepage": "http://www.pcsg.de",
-        "role": "Developer"
-    }],
-
-    "support" : {
-        "email" : "support@pcsg.de"
-    },
-
-    "require": {
-        "quiqqer/quiqqer" : "*@dev"
-    },
-
-    "autoload": {
-        "psr-4" : {
-            "QUI\\Watcher\\" : "src/QUI/Watcher"
-        }
+  "name": "quiqqer/watcher",
+  "type": "quiqqer-plugin",
+  "description": "",
+  "version": "dev-dev",
+  "authors": [
+    {
+      "name": "Henning Leutz",
+      "email": "leutz@pcsg.de",
+      "homepage": "http://www.pcsg.de",
+      "role": "Developer"
     }
+  ],
+  "support": {
+    "email": "support@pcsg.de"
+  },
+  "require": {
+    "quiqqer/quiqqer": "*@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "QUI\\": "src/QUI/",
+      "QUI\\Watcher\\": "src/QUI/Watcher/"
+    }
+  }
 }
