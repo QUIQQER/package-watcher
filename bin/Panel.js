@@ -20,6 +20,7 @@ define('package/quiqqer/watcher/bin/Panel', [
     'qui/QUI',
     'qui/controls/desktop/Panel',
     'qui/controls/messages/Attention',
+    'qui/controls/windows/Popup',
     'qui/utils/Form',
     'controls/grid/Grid',
     'utils/Template',
@@ -29,7 +30,7 @@ define('package/quiqqer/watcher/bin/Panel', [
 
     'css!package/quiqqer/watcher/bin/Panel.css'
 
-], function (QUI, QUIPanel, QUIAttention, QUIFormUtils, Grid, Template, ControlUtils, QUILocale, QUIAjax) {
+], function (QUI, QUIPanel, QUIAttention, QUIPopup, QUIFormUtils, Grid, Template, ControlUtils, QUILocale, QUIAjax) {
     "use strict";
 
     var lg = 'quiqqer/watcher';
@@ -125,7 +126,7 @@ define('package/quiqqer/watcher/bin/Panel', [
                 }, {
                     header   : QUILocale.get(lg, 'grid.callParams'),
                     dataIndex: 'callParams',
-                    dataType : 'string',
+                    dataType : 'code',
                     width    : 200
                 }],
                 onrefresh  : this.loadData,
@@ -138,6 +139,46 @@ define('package/quiqqer/watcher/bin/Panel', [
             if (this.getAttribute('search')) {
                 this.showSearchDisplay();
             }
+
+            this.$Grid.addEvents({
+                onDblClick: function () {
+                    this.openEntry(this.$Grid.getSelectedIndices()[0]);
+                }.bind(this)
+            });
+        },
+
+        openEntry: function (row) {
+            var data = this.$Grid.getDataByRow(row);
+
+            new QUIPopup({
+                title    : data.message,
+                maxHeight: 600,
+                maxWidth : 800,
+                events   : {
+                    onOpen: function (Win) {
+                        var key, Code, Main;
+                        var List = new Element('ul');
+
+                        for (key in data) {
+                            if (!data.hasOwnProperty(key)) {
+                                continue;
+                            }
+
+                            Main = new Element('li', {
+                                html: key + ':'
+                            }).inject(List);
+
+                            Code = new Element('code', {
+                                text: data[key]
+                            });
+
+                            Code.inject(Main);
+                        }
+
+                        List.inject(Win.getContent());
+                    }
+                }
+            }).open();
         },
 
         /**
