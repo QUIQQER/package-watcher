@@ -2,7 +2,7 @@
 <menu>
     <item parent="/extras/"
           name="watcher"
-          icon="icon-eye-open"
+          icon="fa fa-eye"
           require="package/quiqqer/watcher/bin/Panel"
     >
         <locale group="quiqqer/watcher" var="menu.watcher.text" />

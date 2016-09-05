@@ -19,7 +19,7 @@
 
         <window>
             <params>
-                <icon>icon-eye-open</icon>
+                <icon>fa fa-eye</icon>
             </params>
 
 
@@ -28,7 +28,7 @@
                     <text>
                         <locale group="quiqqer/watcher" var="title" />
                     </text>
-                    <icon>icon-gear</icon>
+                    <icon>fa fa-gear</icon>
 
                     <settings title="settings" name="settings">
                         <title>

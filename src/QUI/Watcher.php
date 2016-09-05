@@ -6,6 +6,7 @@
 namespace QUI;
 
 use QUI;
+use QUI\Utils\Text\XML;
 
 /**
  * Class Watcher
@@ -55,10 +56,10 @@ class Watcher
         }
 
         QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), array(
-            'message' => $message,
-            'call' => $call,
+            'message'    => $message,
+            'call'       => $call,
             'callParams' => json_encode($callParams),
-            'uid' => QUI::getUserBySession()->getId(),
+            'uid'        => QUI::getUserBySession()->getId(),
             'statusTime' => date('Y-m-d H:i:s')
         ));
     }
@@ -84,13 +85,13 @@ class Watcher
         }
 
         QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), array(
-            'localeGroup' => $localeGroup,
-            'localeVar' => $localeVar,
+            'localeGroup'  => $localeGroup,
+            'localeVar'    => $localeVar,
             'localeParams' => json_encode($localeParams),
-            'call' => $call,
-            'callParams' => json_encode($callParams),
-            'uid' => QUI::getUserBySession()->getId(),
-            'statusTime' => date('Y-m-d H:i:s')
+            'call'         => $call,
+            'callParams'   => json_encode($callParams),
+            'uid'          => QUI::getUserBySession()->getId(),
+            'statusTime'   => date('Y-m-d H:i:s')
         ));
     }
 
@@ -110,7 +111,7 @@ class Watcher
 
 
         if (!is_array(self::$groups) || !is_array(self::$users)) {
-            $ugs = QUI\UsersGroups\Utils::parseUsersGroupsString(
+            $ugs = QUI\Utils\UserGroups::parseUsersGroupsString(
                 QUI::getPackage('quiqqer/watcher')
                     ->getConfig()
                     ->getValue('settings', 'users_and_groups')
@@ -268,7 +269,6 @@ class Watcher
 
         try {
             $Statement->execute();
-
         } catch (\PDOException $Exception) {
             QUI\System\Log::writeException($Exception);
 
@@ -338,7 +338,6 @@ class Watcher
                 $result[$key]['username'] = QUI::getUsers()
                     ->get($value['uid'])
                     ->getUsername();
-
             } catch (QUI\Exception $Exception) {
                 $result[$key]['username'] = 'unknown';
             }
@@ -360,7 +359,7 @@ class Watcher
      */
     public static function clear($date)
     {
-        QUI\Rights\Permission::checkPermission('quiqqer.watcher.clearlog');
+        QUI\Permissions\Permission::checkPermission('quiqqer.watcher.clearlog');
 
         $date = strtotime($date);
 
@@ -374,7 +373,7 @@ class Watcher
 
         QUI::getDataBase()->delete(QUI::getDBTableName('watcher'), array(
             'statusTime' => array(
-                'type' => '<=',
+                'type'  => '<=',
                 'value' => date('Y-m-d H:i:s', $date)
             )
         ));
@@ -392,7 +391,7 @@ class Watcher
             return;
         }
 
-        $Dom  = QUI\Utils\XML::getDomFromXml($watcherXml);
+        $Dom  = XML::getDomFromXml($watcherXml);
         $Path = new \DOMXPath($Dom);
 
         $watchList = $Path->query("//quiqqer/watch");
@@ -418,8 +417,8 @@ class Watcher
             if ($ajax) {
                 QUI::getDataBase()->insert($table, array(
                     'package' => $package,
-                    'ajax' => $ajax,
-                    'exec' => $exec
+                    'ajax'    => $ajax,
+                    'exec'    => $exec
                 ));
 
                 continue;
@@ -427,8 +426,8 @@ class Watcher
 
             QUI::getDataBase()->insert($table, array(
                 'package' => $package,
-                'event' => $event,
-                'exec' => $exec
+                'event'   => $event,
+                'exec'    => $exec
             ));
         }
     }

@@ -123,12 +123,11 @@ class EventsReact
             if (is_callable($exec)) {
                 try {
                     $str = call_user_func_array($exec, array(
-                        'event' => $event,
+                        'event'  => $event,
                         'params' => $arguments
                     ));
 
                     QUI\Watcher::addString($str, $event, $arguments);
-
                 } catch (\Exception $Exception) {
                     QUI\System\Log::writeException($Exception);
                 }
@@ -165,13 +164,12 @@ class EventsReact
             if (is_callable($exec)) {
                 try {
                     $str = call_user_func_array($exec, array(
-                        'ajax' => $function,
+                        'ajax'   => $function,
                         'params' => $params,
                         'result' => $result
                     ));
 
                     QUI\Watcher::addString($str, $function, $params);
-
                 } catch (\Exception $Exception) {
                     QUI\System\Log::writeException($Exception);
                 }
@@ -210,19 +208,16 @@ class EventsReact
 
                     try {
                         $str = call_user_func_array($exec, array(
-                            'event' => $eventData['event'],
+                            'event'  => $eventData['event'],
                             'params' => func_get_args()
                         ));
 
                         QUI\Watcher::addString($str, $eventData['event']);
-
                     } catch (\Exception $Exception) {
                         QUI\System\Log::writeException($Exception);
                     }
                 });
-
             }
-
         }
     }
 
@@ -308,7 +303,7 @@ class EventsReact
     {
         self::trigger('projectConfigSave', array(
             'project' => $project,
-            'config' => $config
+            'config'  => $config
         ));
     }
 
@@ -321,7 +316,7 @@ class EventsReact
     {
         self::trigger('createProject', array(
             'project' => $Project->getName(),
-            'lang' => $Project->getLang()
+            'lang'    => $Project->getLang()
         ));
     }
 
@@ -369,9 +364,9 @@ class EventsReact
     public static function onSiteActivate($Site)
     {
         self::trigger('siteActivate', array(
-            'id' => $Site->getId(),
+            'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang' => $Site->getProject()->getLang()
+            'lang'    => $Site->getProject()->getLang()
         ));
     }
 
@@ -383,9 +378,9 @@ class EventsReact
     public static function onSiteDeactivate($Site)
     {
         self::trigger('siteDeactivate', array(
-            'id' => $Site->getId(),
+            'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang' => $Site->getProject()->getLang()
+            'lang'    => $Site->getProject()->getLang()
         ));
     }
 
@@ -397,9 +392,9 @@ class EventsReact
     public static function onSiteSave($Site)
     {
         self::trigger('siteSave', array(
-            'id' => $Site->getId(),
+            'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang' => $Site->getProject()->getLang()
+            'lang'    => $Site->getProject()->getLang()
         ));
     }
 
@@ -412,9 +407,9 @@ class EventsReact
     public static function onSiteDelete($siteId, $Project)
     {
         self::trigger('siteDelete', array(
-            'id' => $siteId,
+            'id'      => $siteId,
             'project' => $Project->getName(),
-            'lang' => $Project->getLang()
+            'lang'    => $Project->getLang()
         ));
     }
 
@@ -426,9 +421,9 @@ class EventsReact
     public static function onSiteDestroy($Site)
     {
         self::trigger('siteDestroy', array(
-            'id' => $Site->getId(),
+            'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang' => $Site->getProject()->getLang()
+            'lang'    => $Site->getProject()->getLang()
         ));
     }
 
@@ -441,10 +436,10 @@ class EventsReact
     public static function onSiteCreateChild($newId, $Parent)
     {
         self::trigger('siteCreateChild', array(
-            'newid' => $newId,
-            'id' => $Parent->getId(),
+            'newid'   => $newId,
+            'id'      => $Parent->getId(),
             'project' => $Parent->getProject()->getName(),
-            'lang' => $Parent->getProject()->getLang()
+            'lang'    => $Parent->getProject()->getLang()
         ));
     }
 
@@ -458,9 +453,9 @@ class EventsReact
     {
         self::trigger('siteMove', array(
             'parentId' => $parentId,
-            'id' => $Site->getId(),
-            'project' => $Site->getProject()->getName(),
-            'lang' => $Site->getProject()->getLang()
+            'id'       => $Site->getId(),
+            'project'  => $Site->getProject()->getName(),
+            'lang'     => $Site->getProject()->getLang()
         ));
     }
 
@@ -472,9 +467,9 @@ class EventsReact
     public static function onMediaActivate($Item)
     {
         self::trigger('mediaActivate', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -486,9 +481,9 @@ class EventsReact
     public static function onMediaDeactivate($Item)
     {
         self::trigger('mediaDeactivate', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -500,9 +495,9 @@ class EventsReact
     public static function onMediaSaveBegin($Item)
     {
         self::trigger('mediaSaveBegin', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -514,9 +509,9 @@ class EventsReact
     public static function onMediaSave($Item)
     {
         self::trigger('mediaSave', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -528,9 +523,9 @@ class EventsReact
     public static function onMediaDelete($Item)
     {
         self::trigger('mediaDelete', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -542,9 +537,9 @@ class EventsReact
     public static function onMediaDeleteBegin($Item)
     {
         self::trigger('mediaDeleteBegin', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -556,9 +551,9 @@ class EventsReact
     public static function onMediaDestroy($Item)
     {
         self::trigger('mediaDestroy', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
@@ -570,9 +565,9 @@ class EventsReact
     public static function onMediaRename($Item)
     {
         self::trigger('mediaRename', array(
-            'id' => $Item->getId(),
+            'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang' => $Item->getProject()->getLang()
+            'lang'    => $Item->getProject()->getLang()
         ));
     }
 
