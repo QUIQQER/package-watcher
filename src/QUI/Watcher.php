@@ -6,6 +6,7 @@
 namespace QUI;
 
 use QUI;
+use QUI\Utils\Text\XML;
 
 /**
  * Class Watcher
@@ -268,7 +269,6 @@ class Watcher
 
         try {
             $Statement->execute();
-
         } catch (\PDOException $Exception) {
             QUI\System\Log::writeException($Exception);
 
@@ -338,7 +338,6 @@ class Watcher
                 $result[$key]['username'] = QUI::getUsers()
                     ->get($value['uid'])
                     ->getUsername();
-
             } catch (QUI\Exception $Exception) {
                 $result[$key]['username'] = 'unknown';
             }
@@ -392,7 +391,7 @@ class Watcher
             return;
         }
 
-        $Dom  = QUI\Utils\XML::getDomFromXml($watcherXml);
+        $Dom  = XML::getDomFromXml($watcherXml);
         $Path = new \DOMXPath($Dom);
 
         $watchList = $Path->query("//quiqqer/watch");
