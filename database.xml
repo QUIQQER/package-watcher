@@ -4,14 +4,14 @@
     <global>
         <table name="watcher" no-site-reference="1" no-auto-update="1">
             <field type="INT(11) NOT NULL">id</field>
-            <field type="TEXT">message</field>
-            <field type="VARCHAR(255)">localeGroup</field>
-            <field type="VARCHAR(255)">localeVar</field>
-            <field type="TEXT">localeParams</field>
+            <field type="TEXT NULL DEFAULT NULL">message</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">localeGroup</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">localeVar</field>
+            <field type="TEXT NULL DEFAULT NULL">localeParams</field>
             <field type="INT(11) NOT NULL">uid</field>
-            <field type="DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'">statusTime</field>
-            <field type="VARCHAR(255)">call</field>
-            <field type="TEXT">callParams</field>
+            <field type="DATETIME NULL DEFAULT NULL">statusTime</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">call</field>
+            <field type="TEXT NULL DEFAULT NULL">callParams</field>
 
             <primary>id</primary>
             <auto_increment>id</auto_increment>
@@ -19,10 +19,10 @@
 
         <table name="watcherEvents" no-site-reference="1" no-auto-update="1">
             <field type="INT(11) NOT NULL">id</field>
-            <field type="VARCHAR(255)">package</field>
-            <field type="VARCHAR(255)">ajax</field>
-            <field type="VARCHAR(255)">event</field>
-            <field type="TEXT">exec</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">package</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">ajax</field>
+            <field type="VARCHAR(255) NULL DEFAULT NULL">event</field>
+            <field type="TEXT NULL DEFAULT NULL">exec</field>
 
             <primary>id</primary>
             <auto_increment>id</auto_increment>
