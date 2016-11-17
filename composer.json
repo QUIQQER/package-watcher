@@ -2,7 +2,7 @@
   "name": "quiqqer/watcher",
   "type": "quiqqer-plugin",
   "description": "",
-  "version": "dev-master",
+  "version": "0.12.0",
   "authors": [
     {
       "name": "Henning Leutz",
