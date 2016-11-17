@@ -77,7 +77,8 @@
             ]]></en>
         </locale>
         <locale name="exception.quiqqer.watcher.clearlog.error.wrongDateFormat">
-            <de><![CDATA[Das leeren der Watch-Log hat leider nicht funktioniert. Das Datumsformat hat ein falsches Format.]]></de>
+            <de>
+                <![CDATA[Das leeren der Watch-Log hat leider nicht funktioniert. Das Datumsformat hat ein falsches Format.]]></de>
             <en><![CDATA[The clearing of the Watch-Log did not work. The date format has an incorrect format.]]></en>
         </locale>
     </groups>
@@ -92,15 +93,16 @@
             <en><![CDATA[Watcher]]></en>
         </locale>
         <locale name="settings.title">
-            <de><![CDATA[Watcher Einstellungen]]></de>
-            <en><![CDATA[Watcher settings]]></en>
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
         </locale>
         <locale name="settings.users_and_groups.text">
             <de><![CDATA[Benutzer / Gruppen beobachten:]]></de>
             <en><![CDATA[Watch users / groups:]]></en>
         </locale>
         <locale name="settings.users_and_groups.description">
-            <de><![CDATA[Setzen Sie die Benutzer und oder Gruppen für welche ein Ereignisprotokoll erstellt werden soll.]]></de>
+            <de>
+                <![CDATA[Setzen Sie die Benutzer und oder Gruppen für welche ein Ereignisprotokoll erstellt werden soll.]]></de>
             <en><![CDATA[Put the users and or groups for which an event log is to be created.]]></en>
         </locale>
 
