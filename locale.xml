@@ -108,8 +108,8 @@
             <en><![CDATA[Watcher]]></en>
         </locale>
         <locale name="settings.title">
-            <de><![CDATA[Watcher Einstellungen]]></de>
-            <en><![CDATA[Watcher settings]]></en>
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
         </locale>
         <locale name="settings.users_and_groups.text">
             <de><![CDATA[Benutzer / Gruppen beobachten:]]></de>
