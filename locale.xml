@@ -77,12 +77,28 @@
             ]]></en>
         </locale>
         <locale name="exception.quiqqer.watcher.clearlog.error.wrongDateFormat">
-            <de><![CDATA[Das leeren der Watch-Log hat leider nicht funktioniert. Das Datumsformat hat ein falsches Format.]]></de>
+            <de>
+                <![CDATA[Das leeren der Watch-Log hat leider nicht funktioniert. Das Datumsformat hat ein falsches Format.]]></de>
             <en><![CDATA[The clearing of the Watch-Log did not work. The date format has an incorrect format.]]></en>
         </locale>
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER - Watcher]]></de>
+            <en><![CDATA[QUIQQER - Watcher]]></en>
+        </locale>
+        <locale name="package.description">
+            <de><![CDATA[
+            Das Paket stellt eine Art Protokollant zur Verfügung.
+            Aktionen für bestimmte Gruppen / Nutzer können beobachtet und protokolliert werden.
+            ]]></de>
+            <en><![CDATA[
+            The package provides a kind of protocol secretary.
+            Actions for specific groups / users can be monitored and logged.
+            ]]></en>
+        </locale>
+        
         <locale name="title">
             <de><![CDATA[Wacther-Log konnte nicht geleert werden. Das Datumsformat ist nicht korrekt.]]></de>
             <en><![CDATA[Wacther log could not be cleards. The date format is incorrect.]]></en>
@@ -100,7 +116,8 @@
             <en><![CDATA[Watch users / groups:]]></en>
         </locale>
         <locale name="settings.users_and_groups.description">
-            <de><![CDATA[Setzen Sie die Benutzer und oder Gruppen für welche ein Ereignisprotokoll erstellt werden soll.]]></de>
+            <de>
+                <![CDATA[Setzen Sie die Benutzer und oder Gruppen für welche ein Ereignisprotokoll erstellt werden soll.]]></de>
             <en><![CDATA[Put the users and or groups for which an event log is to be created.]]></en>
         </locale>
 
