@@ -98,7 +98,19 @@
             Actions for specific groups / users can be monitored and logged.
             ]]></en>
         </locale>
-        
+        <locale name="permission.quiqqer.watcher._header">
+            <de><![CDATA[Watcher]]></de>
+            <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="permission.quiqqer.watcher.clearlog">
+            <de><![CDATA[Darf Watcher-Protokolle leeren.]]></de>
+            <en><![CDATA[Is allowed to clear the watcher log.]]></en>
+        </locale>
+        <locale name="permission.quiqqer.watcher.readlog">
+            <de><![CDATA[Darf Watcher-Protokolle lesen.]]></de>
+            <en><![CDATA[Is allowed to read the watcher log.]]></en>
+        </locale>
+
         <locale name="title">
             <de><![CDATA[Wacther-Log konnte nicht geleert werden. Das Datumsformat ist nicht korrekt.]]></de>
             <en><![CDATA[Wacther log could not be cleards. The date format is incorrect.]]></en>
