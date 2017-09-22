@@ -1,9 +1,12 @@
 {
   "name": "quiqqer/watcher",
-  "type": "quiqqer-plugin",
-  "description": "Monitors user activity in the system. Who did what in the administration, you get an activity log in order to be able to trace errors.",
+  "type": "quiqqer-module",
+  "description": "The package provides a kind of logger. Actions for specific groups / users can be monitored and logged.",
   "version": "dev-dev",
-  "licence": ["PCSG QL-1.0", "CC BY-NC-SA 4.0"],
+  "licence": [
+    "PCSG QL-1.0",
+    "CC BY-NC-SA 4.0"
+  ],
   "authors": [
     {
       "name": "Henning Leutz",

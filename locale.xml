@@ -90,10 +90,12 @@
         </locale>
         <locale name="package.description">
             <de><![CDATA[
-            Überwacht Benutzeraktivitäten im System. Wer hat was in der Administration gemacht, erhalten Sie ein Aktivitätsprotokoll um Fehler nachvollziehen zu können.
+            Das Paket stellt eine Art Protokollant zur Verfügung.
+            Aktionen für bestimmte Gruppen / Nutzer können beobachtet und protokolliert werden.
             ]]></de>
             <en><![CDATA[
-            Monitors user activity in the system. Who did what in the administration, you get an activity log in order to be able to trace errors.
+            The package provides a kind of logger.
+            Actions for specific groups / users can be monitored and logged.
             ]]></en>
         </locale>
         <locale name="permission.quiqqer.watcher._header">
