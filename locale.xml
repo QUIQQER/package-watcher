@@ -94,7 +94,7 @@
             Aktionen für bestimmte Gruppen / Nutzer können beobachtet und protokolliert werden.
             ]]></de>
             <en><![CDATA[
-            The package provides a kind of protocol secretary.
+            The package provides a kind of logger.
             Actions for specific groups / users can be monitored and logged.
             ]]></en>
         </locale>
