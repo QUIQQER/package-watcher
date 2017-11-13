@@ -3,6 +3,7 @@
 /**
  * This file contains QUI\Watcher
  */
+
 namespace QUI;
 
 use QUI;
@@ -124,6 +125,10 @@ class Watcher
             foreach ($ugs['users'] as $_uid) {
                 self::$users[$_uid] = true;
             }
+
+            if (empty($ugs['groups']) && empty($ugs['users'])) {
+                self::$groups[QUI\Groups\Manager::EVERYONE_ID] = true;
+            }
         }
 
 
@@ -177,7 +182,7 @@ class Watcher
             $query = 'SELECT COUNT(*) as count ';
         }
 
-        $query .= ' FROM ' . QUI::getDBTableName('watcher');
+        $query .= ' FROM '.QUI::getDBTableName('watcher');
 
 
         // search
@@ -196,7 +201,7 @@ class Watcher
                 $searchQuery[] = 'statusTime <= :to';
             }
 
-            $query .= ' WHERE ' . implode(' AND ', $searchQuery);
+            $query .= ' WHERE '.implode(' AND ', $searchQuery);
         }
 
 
@@ -205,19 +210,19 @@ class Watcher
             case 'id':
             case 'id DESC':
             case 'id ASC':
-                $query .= ' ORDER BY ' . $params['order'];
+                $query .= ' ORDER BY '.$params['order'];
                 break;
 
             case 'uid':
             case 'uid DESC':
             case 'statusTime':
             case 'statusTime DESC':
-                $query .= ' ORDER BY ' . $params['order'] . ', id DESC';
+                $query .= ' ORDER BY '.$params['order'].', id DESC';
                 break;
 
             case 'uid ASC':
             case 'statusTime ASC':
-                $query .= ' ORDER BY ' . $params['order'] . ', id ASC';
+                $query .= ' ORDER BY '.$params['order'].', id ASC';
                 break;
 
             default:
@@ -301,11 +306,11 @@ class Watcher
 
         if (isset($params['perPage']) && isset($params['page'])) {
             $params['limit']
-                = (($params['page'] - 1) * $params['perPage']) . ','
-                  . $params['perPage'];
+                = (($params['page'] - 1) * $params['perPage']).','
+                  .$params['perPage'];
         }
 
-        $order = $params['sortOn'] . ' ' . $params['sortBy'];
+        $order = $params['sortOn'].' '.$params['sortBy'];
 
         switch ($order) {
             case 'id':
@@ -385,7 +390,7 @@ class Watcher
     public static function onPackageSetup(QUI\Package\Package $Package)
     {
         $dir        = $Package->getDir();
-        $watcherXml = $dir . 'watch.xml';
+        $watcherXml = $dir.'watch.xml';
 
         if (!file_exists($watcherXml)) {
             return;
