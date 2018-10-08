@@ -30,6 +30,7 @@ Contribute
 
 - Issue Tracker: https://dev.quiqqer.com/quiqqer/package-watcher/issues
 - Source Code: https://dev.quiqqer.com/quiqqer/package-watcher
+- Wiki: https://dev.quiqqer.com/quiqqer/package-watcher/wikis/home
 
 
 Support
