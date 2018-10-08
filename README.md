@@ -4,7 +4,7 @@ Watcher
 ========
 
 The package provides a kind of logger.
-Actions for specific groups / users can be monitored and logged.
+Actions for specific groups/users can be monitored and logged.
 
 Package name:
 
@@ -16,7 +16,7 @@ Features
 
 - Log actions from users or groups
 - Overview of the performed actions
-- XML API, other modules / packages can be hook in the watcher
+- XML API -> other modules/packages can hook to the watcher
 
 
 Installation
@@ -44,5 +44,3 @@ of the project.
 License
 -------
 PCSG QL-1.0, CC BY-NC-SA 4.0
-
-
