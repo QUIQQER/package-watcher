@@ -8,7 +8,7 @@
             <locale group="quiqqer/watcher" var="package.description"/>
         </description>
 
-        <image src="URL_OPT_DIR/quiqqer/package-watcher/bin/images/Logo.jpg"/>
+        <image src="URL_OPT_DIR/quiqqer/watcher/bin/images/Logo.jpg"/>
 
         <support>
             <email><![CDATA[support@pcsg.de]]></email>
