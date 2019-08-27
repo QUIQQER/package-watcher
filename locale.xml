@@ -84,6 +84,21 @@
     </groups>
 
     <groups name="quiqqer/watcher" datatype="php,js">
+        
+        <!-- Crons -->
+        <locale name="cron.clearWatcherEntries.title">
+            <de><![CDATA[Watcher Log-Einträge löschen]]></de>
+            <en><![CDATA[Delete Watcher log entries]]></en>
+        </locale>
+        <locale name="cron.clearWatcherEntries.description">
+            <de><![CDATA[Löscht aller Watcher Log-Einträge, die älter als X Tage sind.]]></de>
+            <en><![CDATA[Deletes all watcher log entries that are older than X days.]]></en>
+        </locale>
+        <locale name="cron.clearWatcherEntries.param.days">
+            <de><![CDATA[älter als X Tage]]></de>
+            <en><![CDATA[older than X days]]></en>
+        </locale>
+        
         <locale name="package.title">
             <de><![CDATA[QUIQQER - Watcher]]></de>
             <en><![CDATA[QUIQQER - Watcher]]></en>
@@ -111,8 +126,8 @@
             <en><![CDATA[Is allowed to read the watcher log.]]></en>
         </locale>
 
-        <locale name="title">
-            <de><![CDATA[Wacther-Log konnte nicht geleert werden. Das Datumsformat ist nicht korrekt.]]></de>
+        <locale name="exception.quiqqer.watcher.clearlog.error.wrongDateFormat">
+            <de><![CDATA[Watcher-Log konnte nicht geleert werden. Das Datumsformat ist nicht korrekt.]]></de>
             <en><![CDATA[Wacther log could not be cleards. The date format is incorrect.]]></en>
         </locale>
         <locale name="menu.watcher.text">
@@ -122,6 +137,10 @@
         <locale name="settings.title">
             <de><![CDATA[Watcher]]></de>
             <en><![CDATA[Watcher]]></en>
+        </locale>
+        <locale name="settings.category.title">
+            <de><![CDATA[Einstellungen]]></de>
+            <en><![CDATA[Settings]]></en>
         </locale>
         <locale name="settings.users_and_groups.text">
             <de><![CDATA[Benutzer / Gruppen beobachten:]]></de>

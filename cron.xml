@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crons>
+    <cron exec="\QUI\Watcher\Cron::clearWatcherEntries">
+        <title>
+            <locale group="quiqqer/watcher" var="cron.clearWatcherEntries.title" />
+        </title>
+        <description>
+            <locale group="quiqqer/watcher" var="cron.clearWatcherEntries.description" />
+        </description>
+        <!-- available params -->
+        <params>
+            <param name="days">
+                <locale group="quiqqer/watcher" value="cron.clearWatcherEntries.param.days" />
+            </param>
+        </params>
+    </cron>
+</crons>
