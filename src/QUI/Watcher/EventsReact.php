@@ -3,9 +3,11 @@
 /**
  * This file contains QUI\Watcher\EventsReact
  */
+
 namespace QUI\Watcher;
 
 use QUI;
+use QUI\Cache\Manager as CacheManager;
 
 /**
  * Class EventsReact
@@ -26,7 +28,7 @@ class EventsReact
      * @param string $event
      * @param array $arguments
      */
-    public static function trigger($event, $arguments = array())
+    public static function trigger($event, $arguments = [])
     {
         if (!is_string($event)) {
             return;
@@ -99,7 +101,7 @@ class EventsReact
             case 'mediaRename':
                 QUI\Watcher::add(
                     'quiqqer/watcher',
-                    'watcher.message.' . $event,
+                    'watcher.message.'.$event,
                     $event,
                     $arguments,
                     $arguments
@@ -122,10 +124,10 @@ class EventsReact
 
             if (is_callable($exec)) {
                 try {
-                    $str = call_user_func_array($exec, array(
+                    $str = call_user_func_array($exec, [
                         'event'  => $event,
                         'params' => $arguments
-                    ));
+                    ]);
 
                     QUI\Watcher::addString($str, $event, $arguments);
                 } catch (\Exception $Exception) {
@@ -163,11 +165,11 @@ class EventsReact
 
             if (is_callable($exec)) {
                 try {
-                    $str = call_user_func_array($exec, array(
+                    $str = call_user_func_array($exec, [
                         'ajax'   => $function,
                         'params' => $params,
                         'result' => $result
-                    ));
+                    ]);
 
                     QUI\Watcher::addString($str, $function, $params);
                 } catch (\Exception $Exception) {
@@ -207,10 +209,10 @@ class EventsReact
                     }
 
                     try {
-                        $str = call_user_func_array($exec, array(
+                        $str = call_user_func_array($exec, [
                             'event'  => $eventData['event'],
                             'params' => func_get_args()
-                        ));
+                        ]);
 
                         QUI\Watcher::addString($str, $eventData['event']);
                     } catch (\Exception $Exception) {
@@ -228,9 +230,9 @@ class EventsReact
      */
     public static function onUserSave($User)
     {
-        self::trigger('userSave', array(
+        self::trigger('userSave', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -240,9 +242,9 @@ class EventsReact
      */
     public static function onUserSetPassword($User)
     {
-        self::trigger('userSetPassword', array(
+        self::trigger('userSetPassword', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -252,9 +254,9 @@ class EventsReact
      */
     public static function onUserDisable($User)
     {
-        self::trigger('userDisable', array(
+        self::trigger('userDisable', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -264,9 +266,9 @@ class EventsReact
      */
     public static function onUserActivate($User)
     {
-        self::trigger('userActivate', array(
+        self::trigger('userActivate', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -276,9 +278,9 @@ class EventsReact
      */
     public static function onUserDeactivate($User)
     {
-        self::trigger('userDeactivate', array(
+        self::trigger('userDeactivate', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -288,9 +290,9 @@ class EventsReact
      */
     public static function onUserDelete($User)
     {
-        self::trigger('userDelete', array(
+        self::trigger('userDelete', [
             'uid' => $User->getId()
-        ));
+        ]);
     }
 
     /**
@@ -301,10 +303,10 @@ class EventsReact
      */
     public static function onProjectConfigSave($project, $config)
     {
-        self::trigger('projectConfigSave', array(
+        self::trigger('projectConfigSave', [
             'project' => $project,
             'config'  => $config
-        ));
+        ]);
     }
 
     /**
@@ -314,10 +316,10 @@ class EventsReact
      */
     public static function onCreateProject($Project)
     {
-        self::trigger('createProject', array(
+        self::trigger('createProject', [
             'project' => $Project->getName(),
             'lang'    => $Project->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -327,9 +329,9 @@ class EventsReact
      */
     public static function onPackageSetup($Package)
     {
-        self::trigger('packageSetup', array(
+        self::trigger('packageSetup', [
             'package' => $Package->getName()
-        ));
+        ]);
     }
 
     /**
@@ -339,9 +341,9 @@ class EventsReact
      */
     public static function onPackageInstall($Package)
     {
-        self::trigger('packageInstall', array(
+        self::trigger('packageInstall', [
             'package' => $Package->getName()
-        ));
+        ]);
     }
 
     /**
@@ -351,9 +353,9 @@ class EventsReact
      */
     public static function onPackageUninstall($packageName)
     {
-        self::trigger('packageUninstall', array(
+        self::trigger('packageUninstall', [
             'package' => $packageName
-        ));
+        ]);
     }
 
     /**
@@ -363,11 +365,11 @@ class EventsReact
      */
     public static function onSiteActivate($Site)
     {
-        self::trigger('siteActivate', array(
+        self::trigger('siteActivate', [
             'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
             'lang'    => $Site->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -377,11 +379,11 @@ class EventsReact
      */
     public static function onSiteDeactivate($Site)
     {
-        self::trigger('siteDeactivate', array(
+        self::trigger('siteDeactivate', [
             'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
             'lang'    => $Site->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -391,11 +393,11 @@ class EventsReact
      */
     public static function onSiteSave($Site)
     {
-        self::trigger('siteSave', array(
+        self::trigger('siteSave', [
             'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
             'lang'    => $Site->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -406,11 +408,11 @@ class EventsReact
      */
     public static function onSiteDelete($siteId, $Project)
     {
-        self::trigger('siteDelete', array(
+        self::trigger('siteDelete', [
             'id'      => $siteId,
             'project' => $Project->getName(),
             'lang'    => $Project->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -420,11 +422,11 @@ class EventsReact
      */
     public static function onSiteDestroy($Site)
     {
-        self::trigger('siteDestroy', array(
+        self::trigger('siteDestroy', [
             'id'      => $Site->getId(),
             'project' => $Site->getProject()->getName(),
             'lang'    => $Site->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -435,12 +437,12 @@ class EventsReact
      */
     public static function onSiteCreateChild($newId, $Parent)
     {
-        self::trigger('siteCreateChild', array(
+        self::trigger('siteCreateChild', [
             'newid'   => $newId,
             'id'      => $Parent->getId(),
             'project' => $Parent->getProject()->getName(),
             'lang'    => $Parent->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -451,12 +453,12 @@ class EventsReact
      */
     public static function onSiteMove($Site, $parentId)
     {
-        self::trigger('siteMove', array(
+        self::trigger('siteMove', [
             'parentId' => $parentId,
             'id'       => $Site->getId(),
             'project'  => $Site->getProject()->getName(),
             'lang'     => $Site->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -466,11 +468,11 @@ class EventsReact
      */
     public static function onMediaActivate($Item)
     {
-        self::trigger('mediaActivate', array(
+        self::trigger('mediaActivate', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -480,11 +482,11 @@ class EventsReact
      */
     public static function onMediaDeactivate($Item)
     {
-        self::trigger('mediaDeactivate', array(
+        self::trigger('mediaDeactivate', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -494,11 +496,11 @@ class EventsReact
      */
     public static function onMediaSaveBegin($Item)
     {
-        self::trigger('mediaSaveBegin', array(
+        self::trigger('mediaSaveBegin', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -508,11 +510,11 @@ class EventsReact
      */
     public static function onMediaSave($Item)
     {
-        self::trigger('mediaSave', array(
+        self::trigger('mediaSave', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -522,11 +524,11 @@ class EventsReact
      */
     public static function onMediaDelete($Item)
     {
-        self::trigger('mediaDelete', array(
+        self::trigger('mediaDelete', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -536,11 +538,11 @@ class EventsReact
      */
     public static function onMediaDeleteBegin($Item)
     {
-        self::trigger('mediaDeleteBegin', array(
+        self::trigger('mediaDeleteBegin', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -550,11 +552,11 @@ class EventsReact
      */
     public static function onMediaDestroy($Item)
     {
-        self::trigger('mediaDestroy', array(
+        self::trigger('mediaDestroy', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -564,11 +566,11 @@ class EventsReact
      */
     public static function onMediaRename($Item)
     {
-        self::trigger('mediaRename', array(
+        self::trigger('mediaRename', [
             'id'      => $Item->getId(),
             'project' => $Item->getProject()->getName(),
             'lang'    => $Item->getProject()->getLang()
-        ));
+        ]);
     }
 
     /**
@@ -578,10 +580,23 @@ class EventsReact
      */
     protected static function getWatchEvents()
     {
+        $cacheName = 'quiqqer/watcher/events';
+
+        try {
+            return CacheManager::get($cacheName);
+        } catch (\Exception $Exception) {
+            // re-fetch from database
+        }
+
         if (!self::$watcherEvents) {
-            $result = QUI::getDataBase()->fetch(array(
-                'from' => QUI::getDBTableName('watcherEvents')
-            ));
+            try {
+                $result = QUI::getDataBase()->fetch([
+                    'from' => QUI::getDBTableName('watcherEvents')
+                ]);
+            } catch (\Exception $Exception) {
+                QUI\System\Log::writeException($Exception);
+                $result = [];
+            }
 
             foreach ($result as $entry) {
                 if (!empty($entry['ajax'])) {
@@ -593,6 +608,8 @@ class EventsReact
                 }
             }
         }
+
+        CacheManager::set($cacheName, self::$watcherEvents);
 
         return self::$watcherEvents;
     }
