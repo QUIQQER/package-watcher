@@ -2,7 +2,7 @@
   "name": "quiqqer/watcher",
   "type": "quiqqer-module",
   "description": "The package provides a kind of logger. Actions for specific groups / users can be monitored and logged.",
-  "version": "dev-master",
+  "version": "1.1.0",
   "licence": [
     "PCSG QL-1.0",
     "CC BY-NC-SA 4.0"
@@ -19,8 +19,8 @@
     "email": "support@pcsg.de"
   },
   "require": {
-    "quiqqer/quiqqer": "*@dev",
-    "quiqqer/utils": ">=1.4|dev-master|dev-dev"
+    "quiqqer/quiqqer": "^1|*@dev",
+    "quiqqer/utils": "^1.4|*@dev"
   },
   "autoload": {
     "psr-4": {
