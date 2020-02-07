@@ -19,6 +19,14 @@ use QUI\Utils\Text\XML;
 class Watcher
 {
     /**
+     * This can be changed to true if the Watcher should be globally disabled for a
+     * PHP process.
+     *
+     * @var bool
+     */
+    public static $globalWatcherDisable = false;
+
+    /**
      * list of group ids
      *
      * @var null
@@ -103,6 +111,10 @@ class Watcher
      */
     protected static function insertCheck()
     {
+        if (self::$globalWatcherDisable) {
+            return false;
+        }
+
         $User = QUI::getUserBySession();
         $uid  = $User->getId();
 
