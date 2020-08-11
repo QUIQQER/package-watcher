@@ -68,7 +68,7 @@ class Watcher
             'message'    => $message,
             'call'       => $call,
             'callParams' => json_encode($callParams),
-            'uid'        => QUI::getUserBySession()->getId(),
+            'uid'        => QUI::getUserBySession()->getId() ?: 0,
             'statusTime' => date('Y-m-d H:i:s')
         ));
     }
