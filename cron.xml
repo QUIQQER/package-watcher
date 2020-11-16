@@ -10,7 +10,7 @@
         <!-- available params -->
         <params>
             <param name="days">
-                <locale group="quiqqer/watcher" value="cron.clearWatcherEntries.param.days" />
+                <locale group="quiqqer/watcher" var="cron.clearWatcherEntries.param.days" />
             </param>
         </params>
     </cron>
