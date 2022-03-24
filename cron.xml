@@ -13,5 +13,10 @@
                 <locale group="quiqqer/watcher" var="cron.clearWatcherEntries.param.days" />
             </param>
         </params>
+
+        <autocreate>
+            <interval>0 0 * * *</interval>
+            <active>1</active>
+        </autocreate>
     </cron>
 </crons>
