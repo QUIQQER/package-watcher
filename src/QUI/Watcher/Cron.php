@@ -19,6 +19,10 @@ class Cron
      */
     public static function clearWatcherEntries($params)
     {
+        if (empty($params['days'])) {
+            $params['days'] = 3;
+        }
+
         $DeleteOlderThanDate = date_create('-'.$params['days'].' day');
         Watcher::clear($DeleteOlderThanDate->format('Y-m-d'));
     }
