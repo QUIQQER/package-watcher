@@ -45,7 +45,7 @@ class Watcher
      *
      * @var array
      */
-    protected static $checked = array();
+    protected static $checked = [];
 
     /**
      * Add a simple string to the watch-log
@@ -54,7 +54,7 @@ class Watcher
      * @param string $call - php call, eq: ajax function or event name
      * @param array $callParams - optional, call parameter
      */
-    public static function addString($message = '', $call = '', $callParams = array())
+    public static function addString($message = '', $call = '', $callParams = [])
     {
         if (empty($message)) {
             return;
@@ -64,13 +64,13 @@ class Watcher
             return;
         }
 
-        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), array(
-            'message'    => $message,
-            'call'       => $call,
+        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), [
+            'message' => $message,
+            'call' => $call,
             'callParams' => json_encode($callParams),
-            'uid'        => QUI::getUserBySession()->getId() ?: 0,
+            'uid' => QUI::getUserBySession()->getId() ?: 0,
             'statusTime' => date('Y-m-d H:i:s')
-        ));
+        ]);
     }
 
     /**
@@ -86,22 +86,22 @@ class Watcher
         $localeGroup,
         $localeVar,
         $call = '',
-        $callParams = array(),
-        $localeParams = array()
+        $callParams = [],
+        $localeParams = []
     ) {
         if (!self::insertCheck()) {
             return;
         }
 
-        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), array(
-            'localeGroup'  => $localeGroup,
-            'localeVar'    => $localeVar,
+        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), [
+            'localeGroup' => $localeGroup,
+            'localeVar' => $localeVar,
             'localeParams' => json_encode($localeParams),
-            'call'         => $call,
-            'callParams'   => json_encode($callParams),
-            'uid'          => QUI::getUserBySession()->getId(),
-            'statusTime'   => date('Y-m-d H:i:s')
-        ));
+            'call' => $call,
+            'callParams' => json_encode($callParams),
+            'uid' => QUI::getUserBySession()->getId(),
+            'statusTime' => date('Y-m-d H:i:s')
+        ]);
     }
 
     /**
@@ -116,7 +116,7 @@ class Watcher
         }
 
         $User = QUI::getUserBySession();
-        $uid  = $User->getId();
+        $uid = $User->getId();
 
         if (isset(self::$checked[$uid])) {
             return self::$checked[$uid];
@@ -176,7 +176,7 @@ class Watcher
      *
      * @return array
      */
-    public static function getList($params = array(), $search = false)
+    public static function getList($params = [], $search = false)
     {
         $PDO = QUI::getDataBase()->getPDO();
 
@@ -194,12 +194,12 @@ class Watcher
             $query = 'SELECT COUNT(*) as count ';
         }
 
-        $query .= ' FROM '.QUI::getDBTableName('watcher');
+        $query .= ' FROM ' . QUI::getDBTableName('watcher');
 
 
         // search
         if (is_array($search)) {
-            $searchQuery = array();
+            $searchQuery = [];
 
             if ($search['uid'] && !empty($search['uid'])) {
                 $searchQuery[] = 'uid = :uid';
@@ -213,7 +213,7 @@ class Watcher
                 $searchQuery[] = 'statusTime <= :to';
             }
 
-            $query .= ' WHERE '.implode(' AND ', $searchQuery);
+            $query .= ' WHERE ' . implode(' AND ', $searchQuery);
         }
 
 
@@ -222,19 +222,19 @@ class Watcher
             case 'id':
             case 'id DESC':
             case 'id ASC':
-                $query .= ' ORDER BY '.$params['order'];
+                $query .= ' ORDER BY ' . $params['order'];
                 break;
 
             case 'uid':
             case 'uid DESC':
             case 'statusTime':
             case 'statusTime DESC':
-                $query .= ' ORDER BY '.$params['order'].', id DESC';
+                $query .= ' ORDER BY ' . $params['order'] . ', id DESC';
                 break;
 
             case 'uid ASC':
             case 'statusTime ASC':
-                $query .= ' ORDER BY '.$params['order'].', id ASC';
+                $query .= ' ORDER BY ' . $params['order'] . ', id ASC';
                 break;
 
             default:
@@ -289,7 +289,7 @@ class Watcher
         } catch (\PDOException $Exception) {
             QUI\System\Log::writeException($Exception);
 
-            return array();
+            return [];
         }
 
         return $Statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -303,9 +303,9 @@ class Watcher
      *
      * @return array
      */
-    public static function getGridList($params = array(), $search = false)
+    public static function getGridList($params = [], $search = false)
     {
-        $Grid     = new QUI\Utils\Grid();
+        $Grid = new QUI\Utils\Grid();
         $dbParams = $Grid->parseDBParams($params);
 
         if (!isset($params['sortOn'])) {
@@ -318,11 +318,11 @@ class Watcher
 
         if (isset($params['perPage']) && isset($params['page'])) {
             $params['limit']
-                = (($params['page'] - 1) * $params['perPage']).','
-                  .$params['perPage'];
+                = (($params['page'] - 1) * $params['perPage']) . ','
+                . $params['perPage'];
         }
 
-        $order = $params['sortOn'].' '.$params['sortBy'];
+        $order = $params['sortOn'] . ' ' . $params['sortBy'];
 
         switch ($order) {
             case 'id':
@@ -338,7 +338,7 @@ class Watcher
         }
 
         $dbParams['order'] = $order;
-        $result            = self::getList($dbParams, $search);
+        $result = self::getList($dbParams, $search);
 
         foreach ($result as $key => $value) {
             if (!empty($value['localeGroup']) && !empty($value['localeVar'])) {
@@ -362,7 +362,7 @@ class Watcher
 
         $dbParams['limit'] = false;
         $dbParams['count'] = true;
-        $count             = self::getList($dbParams, $search);
+        $count = self::getList($dbParams, $search);
 
         return $Grid->parseResult($result, $count[0]['count']);
     }
@@ -381,19 +381,19 @@ class Watcher
         $date = strtotime($date);
 
         if (!$date) {
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/watcher',
                 'exception.quiqqer.watcher.clearlog.error.wrongDateFormat'
-            ));
+            ]);
         }
 
 
-        QUI::getDataBase()->delete(QUI::getDBTableName('watcher'), array(
-            'statusTime' => array(
-                'type'  => '<=',
+        QUI::getDataBase()->delete(QUI::getDBTableName('watcher'), [
+            'statusTime' => [
+                'type' => '<=',
                 'value' => date('Y-m-d H:i:s', $date)
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -401,30 +401,30 @@ class Watcher
      */
     public static function onPackageSetup(QUI\Package\Package $Package)
     {
-        $dir        = $Package->getDir();
-        $watcherXml = $dir.'watch.xml';
+        $dir = $Package->getDir();
+        $watcherXml = $dir . 'watch.xml';
 
         if (!file_exists($watcherXml)) {
             return;
         }
 
-        $Dom  = XML::getDomFromXml($watcherXml);
+        $Dom = XML::getDomFromXml($watcherXml);
         $Path = new \DOMXPath($Dom);
 
         $watchList = $Path->query("//quiqqer/watch");
-        $table     = QUI::getDBTableName('watcherEvents');
-        $package   = $Package->getName();
+        $table = QUI::getDBTableName('watcherEvents');
+        $package = $Package->getName();
 
         // clear watches of package
-        QUI::getDataBase()->delete($table, array(
+        QUI::getDataBase()->delete($table, [
             'package' => $package
-        ));
+        ]);
 
         // insert watches
         foreach ($watchList as $Watch) {
             /* @var $Watch \DOMElement */
-            $ajax  = $Watch->getAttribute('ajax');
-            $exec  = $Watch->getAttribute('exec');
+            $ajax = $Watch->getAttribute('ajax');
+            $exec = $Watch->getAttribute('exec');
             $event = $Watch->getAttribute('event');
 
             if (!$exec || !is_callable($exec)) {
@@ -432,20 +432,20 @@ class Watcher
             }
 
             if ($ajax) {
-                QUI::getDataBase()->insert($table, array(
+                QUI::getDataBase()->insert($table, [
                     'package' => $package,
-                    'ajax'    => $ajax,
-                    'exec'    => $exec
-                ));
+                    'ajax' => $ajax,
+                    'exec' => $exec
+                ]);
 
                 continue;
             }
 
-            QUI::getDataBase()->insert($table, array(
+            QUI::getDataBase()->insert($table, [
                 'package' => $package,
-                'event'   => $event,
-                'exec'    => $exec
-            ));
+                'event' => $event,
+                'exec' => $exec
+            ]);
         }
     }
 }
