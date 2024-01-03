@@ -23,7 +23,7 @@ class Cron
             $params['days'] = 3;
         }
 
-        $DeleteOlderThanDate = date_create('-'.$params['days'].' day');
+        $DeleteOlderThanDate = date_create('-' . $params['days'] . ' day');
         Watcher::clear($DeleteOlderThanDate->format('Y-m-d'));
     }
 }

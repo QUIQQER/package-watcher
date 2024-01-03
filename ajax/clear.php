@@ -14,6 +14,6 @@ QUI::$Ajax->registerFunction(
     function ($date) {
         QUI\Watcher::clear($date);
     },
-    array('date'),
-    array('Permission::checkAdminUser', 'quiqqer.watcher.clearlog')
+    ['date'],
+    ['Permission::checkAdminUser', 'quiqqer.watcher.clearlog']
 );

@@ -35,7 +35,8 @@ class EventsReact
         }
 
         // admin events
-        if ($event == 'headerLoaded'
+        if (
+            $event == 'headerLoaded'
             || $event == 'adminLoad'
             || $event == 'adminLoadFooter'
         ) {
@@ -48,7 +49,8 @@ class EventsReact
         }
 
         // site events
-        if ($event == 'siteInit'
+        if (
+            $event == 'siteInit'
             || $event == 'siteLoad'
             || $event == 'siteCheckActivate'
             || $event == 'siteCheckDeactivate'
@@ -101,7 +103,7 @@ class EventsReact
             case 'mediaRename':
                 QUI\Watcher::add(
                     'quiqqer/watcher',
-                    'watcher.message.'.$event,
+                    'watcher.message.' . $event,
                     $event,
                     $arguments,
                     $arguments
@@ -125,7 +127,7 @@ class EventsReact
             if (is_callable($exec)) {
                 try {
                     $str = call_user_func_array($exec, [
-                        'event'  => $event,
+                        'event' => $event,
                         'params' => $arguments
                     ]);
 
@@ -166,7 +168,7 @@ class EventsReact
             if (is_callable($exec)) {
                 try {
                     $str = call_user_func_array($exec, [
-                        'ajax'   => $function,
+                        'ajax' => $function,
                         'params' => $params,
                         'result' => $result
                     ]);
@@ -201,7 +203,6 @@ class EventsReact
         foreach ($events['event'] as $event => $data) {
             foreach ($data as $eventData) {
                 $Events->addEvent($event, function () use ($eventData) {
-
                     $exec = $eventData['exec'];
 
                     if (!is_callable($exec)) {
@@ -210,7 +211,7 @@ class EventsReact
 
                     try {
                         $str = call_user_func_array($exec, [
-                            'event'  => $eventData['event'],
+                            'event' => $eventData['event'],
                             'params' => func_get_args()
                         ]);
 
@@ -305,7 +306,7 @@ class EventsReact
     {
         self::trigger('projectConfigSave', [
             'project' => $project,
-            'config'  => $config
+            'config' => $config
         ]);
     }
 
@@ -318,7 +319,7 @@ class EventsReact
     {
         self::trigger('createProject', [
             'project' => $Project->getName(),
-            'lang'    => $Project->getLang()
+            'lang' => $Project->getLang()
         ]);
     }
 
@@ -366,9 +367,9 @@ class EventsReact
     public static function onSiteActivate($Site)
     {
         self::trigger('siteActivate', [
-            'id'      => $Site->getId(),
+            'id' => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang'    => $Site->getProject()->getLang()
+            'lang' => $Site->getProject()->getLang()
         ]);
     }
 
@@ -380,9 +381,9 @@ class EventsReact
     public static function onSiteDeactivate($Site)
     {
         self::trigger('siteDeactivate', [
-            'id'      => $Site->getId(),
+            'id' => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang'    => $Site->getProject()->getLang()
+            'lang' => $Site->getProject()->getLang()
         ]);
     }
 
@@ -394,9 +395,9 @@ class EventsReact
     public static function onSiteSave($Site)
     {
         self::trigger('siteSave', [
-            'id'      => $Site->getId(),
+            'id' => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang'    => $Site->getProject()->getLang()
+            'lang' => $Site->getProject()->getLang()
         ]);
     }
 
@@ -409,9 +410,9 @@ class EventsReact
     public static function onSiteDelete($siteId, $Project)
     {
         self::trigger('siteDelete', [
-            'id'      => $siteId,
+            'id' => $siteId,
             'project' => $Project->getName(),
-            'lang'    => $Project->getLang()
+            'lang' => $Project->getLang()
         ]);
     }
 
@@ -423,9 +424,9 @@ class EventsReact
     public static function onSiteDestroy($Site)
     {
         self::trigger('siteDestroy', [
-            'id'      => $Site->getId(),
+            'id' => $Site->getId(),
             'project' => $Site->getProject()->getName(),
-            'lang'    => $Site->getProject()->getLang()
+            'lang' => $Site->getProject()->getLang()
         ]);
     }
 
@@ -438,10 +439,10 @@ class EventsReact
     public static function onSiteCreateChild($newId, $Parent)
     {
         self::trigger('siteCreateChild', [
-            'newid'   => $newId,
-            'id'      => $Parent->getId(),
+            'newid' => $newId,
+            'id' => $Parent->getId(),
             'project' => $Parent->getProject()->getName(),
-            'lang'    => $Parent->getProject()->getLang()
+            'lang' => $Parent->getProject()->getLang()
         ]);
     }
 
@@ -455,9 +456,9 @@ class EventsReact
     {
         self::trigger('siteMove', [
             'parentId' => $parentId,
-            'id'       => $Site->getId(),
-            'project'  => $Site->getProject()->getName(),
-            'lang'     => $Site->getProject()->getLang()
+            'id' => $Site->getId(),
+            'project' => $Site->getProject()->getName(),
+            'lang' => $Site->getProject()->getLang()
         ]);
     }
 
@@ -469,9 +470,9 @@ class EventsReact
     public static function onMediaActivate($Item)
     {
         self::trigger('mediaActivate', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -483,9 +484,9 @@ class EventsReact
     public static function onMediaDeactivate($Item)
     {
         self::trigger('mediaDeactivate', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -497,9 +498,9 @@ class EventsReact
     public static function onMediaSaveBegin($Item)
     {
         self::trigger('mediaSaveBegin', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -511,9 +512,9 @@ class EventsReact
     public static function onMediaSave($Item)
     {
         self::trigger('mediaSave', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -525,9 +526,9 @@ class EventsReact
     public static function onMediaDelete($Item)
     {
         self::trigger('mediaDelete', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -539,9 +540,9 @@ class EventsReact
     public static function onMediaDeleteBegin($Item)
     {
         self::trigger('mediaDeleteBegin', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -553,9 +554,9 @@ class EventsReact
     public static function onMediaDestroy($Item)
     {
         self::trigger('mediaDestroy', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
@@ -567,9 +568,9 @@ class EventsReact
     public static function onMediaRename($Item)
     {
         self::trigger('mediaRename', [
-            'id'      => $Item->getId(),
+            'id' => $Item->getId(),
             'project' => $Item->getProject()->getName(),
-            'lang'    => $Item->getProject()->getLang()
+            'lang' => $Item->getProject()->getLang()
         ]);
     }
 
