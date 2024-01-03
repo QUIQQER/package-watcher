@@ -1,30 +1,30 @@
 {
-    "name": "quiqqer\/watcher",
-    "type": "quiqqer-module",
-    "description": "The package provides a kind of logger. Actions for specific groups \/ users can be monitored and logged.",
-    "licence": [
-        "PCSG QL-1.0",
-        "CC BY-NC-SA 4.0"
-    ],
-    "authors": [
-        {
-            "name": "Henning Leutz",
-            "email": "leutz@pcsg.de",
-            "homepage": "http:\/\/www.pcsg.de",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "email": "support@pcsg.de"
-    },
-    "require": {
-        "quiqqer\/quiqqer": "*@dev",
-        "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
-    },
-    "autoload": {
-        "psr-4": {
-            "QUI\\": "src\/QUI\/",
-            "QUI\\Watcher\\": "src\/QUI\/Watcher\/"
-        }
+  "name": "quiqqer\/watcher",
+  "type": "quiqqer-module",
+  "description": "The package provides a kind of logger. Actions for specific groups \/ users can be monitored and logged.",
+  "license": [
+    "PCSG QL-1.0",
+    "CC BY-NC-SA 4.0"
+  ],
+  "authors": [
+    {
+      "name": "Henning Leutz",
+      "email": "leutz@pcsg.de",
+      "homepage": "http:\/\/www.pcsg.de",
+      "role": "Developer"
     }
+  ],
+  "support": {
+    "email": "support@pcsg.de"
+  },
+  "require": {
+    "quiqqer\/quiqqer": "*@dev",
+    "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "QUI\\": "src\/QUI\/",
+      "QUI\\Watcher\\": "src\/QUI\/Watcher\/"
+    }
+  }
 }
