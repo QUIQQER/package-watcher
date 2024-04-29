@@ -8,7 +8,12 @@ namespace QUI\Watcher;
 
 use QUI;
 use QUI\Cache\Manager as CacheManager;
+use QUI\ERP\Accounting\Payments\Transactions\Factory;
 use QUI\Exception;
+
+use function date;
+use function is_numeric;
+use function json_encode;
 
 /**
  * Class EventsReact
@@ -639,4 +644,32 @@ class EventsReact
 
         return self::$watcherEvents;
     }
+
+    public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
+    {
+        $Console->writeLn('- Migrate watcher');
+
+
+        $result = QUI::getDataBase()->fetch([
+            'from' => QUI::getDBTableName('watcher')
+        ]);
+
+        foreach ($result as $entry) {
+            $uid = $entry['uid'];
+
+            if (!is_numeric($uid)) {
+                continue;
+            }
+
+            try {
+                QUI::getDataBase()->update(
+                    QUI::getDBTableName('watcher'),
+                    ['uid' => QUI::getUsers()->get($uid)->getUUID()],
+                    ['id' => $entry['id']]
+                );
+            } catch (QUI\Exception) {
+            }
+        }
+    }
 }
+
