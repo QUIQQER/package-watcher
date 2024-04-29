@@ -672,4 +672,3 @@ class EventsReact
         }
     }
 }
-
