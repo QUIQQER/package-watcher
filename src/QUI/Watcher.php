@@ -6,7 +6,13 @@
 
 namespace QUI;
 
+use DOMElement;
+use DOMXPath;
+use PDO;
+use PDOException;
 use QUI;
+use QUI\Database\Exception;
+use QUI\Groups\Group;
 use QUI\Utils\Text\XML;
 
 /**
@@ -24,28 +30,28 @@ class Watcher
      *
      * @var bool
      */
-    public static $globalWatcherDisable = false;
+    public static bool $globalWatcherDisable = false;
 
     /**
      * list of group ids
      *
-     * @var null
+     * @var array|null
      */
-    protected static $groups = null;
+    protected static ?array $groups = null;
 
     /**
      * list of group ids
      *
-     * @var null
+     * @var array|null
      */
-    protected static $users = null;
+    protected static ?array $users = null;
 
     /**
      * list of checked users
      *
      * @var array
      */
-    protected static $checked = [];
+    protected static array $checked = [];
 
     /**
      * Add a simple string to the watch-log
@@ -53,8 +59,9 @@ class Watcher
      * @param string $message - Message
      * @param string $call - php call, eq: ajax function or event name
      * @param array $callParams - optional, call parameter
+     * @throws Exception|QUI\Exception
      */
-    public static function addString($message = '', $call = '', $callParams = [])
+    public static function addString(string $message = '', string $call = '', array $callParams = []): void
     {
         if (empty($message)) {
             return;
@@ -81,14 +88,15 @@ class Watcher
      * @param string $call - php call, eq: ajax function or event name
      * @param array $callParams - optional, call parameter
      * @param array $localeParams - optional, locale parameter
+     * @throws QUI\Exception
      */
     public static function add(
-        $localeGroup,
-        $localeVar,
-        $call = '',
-        $callParams = [],
-        $localeParams = []
-    ) {
+        string $localeGroup,
+        string $localeVar,
+        string $call = '',
+        array $callParams = [],
+        array $localeParams = []
+    ): void {
         if (!self::insertCheck()) {
             return;
         }
@@ -108,8 +116,9 @@ class Watcher
      * Should be logged for the group or user?
      *
      * @return bool
+     * @throws Exception|\QUI\Exception
      */
-    protected static function insertCheck()
+    protected static function insertCheck(): bool
     {
         if (self::$globalWatcherDisable) {
             return false;
@@ -154,7 +163,7 @@ class Watcher
 
         $groups = $User->getGroups();
 
-        /* @var $Group \QUI\Groups\Group */
+        /* @var $Group Group */
         foreach ($groups as $Group) {
             if (isset(self::$groups[$Group->getId()])) {
                 self::$checked[$uid] = true;
@@ -172,11 +181,11 @@ class Watcher
      * Return the watcher-log list
      *
      * @param array $params - database query params (eq: order, limit)
-     * @param array|bool $search - search parameter
+     * @param bool|array $search - search parameter
      *
      * @return array
      */
-    public static function getList($params = [], $search = false)
+    public static function getList(array $params = [], bool|array $search = false): array
     {
         $PDO = QUI::getDataBase()->getPDO();
 
@@ -201,15 +210,15 @@ class Watcher
         if (is_array($search)) {
             $searchQuery = [];
 
-            if ($search['uid'] && !empty($search['uid'])) {
+            if (!empty($search['uid'])) {
                 $searchQuery[] = 'uid = :uid';
             }
 
-            if ($search['from'] && !empty($search['from'])) {
+            if (!empty($search['from'])) {
                 $searchQuery[] = 'statusTime >= :from';
             }
 
-            if ($search['to'] && !empty($search['to'])) {
+            if (!empty($search['to'])) {
                 $searchQuery[] = 'statusTime <= :to';
             }
 
@@ -251,7 +260,7 @@ class Watcher
 
         // prepared statements
         if ($params['limit'] !== false) {
-            if (strpos($params['limit'], ',') === false) {
+            if (!str_contains($params['limit'], ',')) {
                 $limit1 = 0;
                 $limit2 = (int)$params['limit'];
             } else {
@@ -261,49 +270,48 @@ class Watcher
                 $limit2 = (int)$params['limit'][1];
             }
 
-            $Statement->bindValue(':limit1', $limit1, \PDO::PARAM_INT);
-            $Statement->bindValue(':limit2', $limit2, \PDO::PARAM_INT);
+            $Statement->bindValue(':limit1', $limit1, PDO::PARAM_INT);
+            $Statement->bindValue(':limit2', $limit2, PDO::PARAM_INT);
         }
 
         if (is_array($search)) {
-            if ($search['uid'] && !empty($search['uid'])) {
-                $Statement->bindValue(':uid', $search['uid'], \PDO::PARAM_STR);
+            if (!empty($search['uid'])) {
+                $Statement->bindValue(':uid', $search['uid']);
             }
 
-            if ($search['from'] && !empty($search['from'])) {
+            if (!empty($search['from'])) {
                 $Statement->bindValue(
                     ':from',
-                    $search['from'],
-                    \PDO::PARAM_STR
+                    $search['from']
                 );
             }
 
-            if ($search['to'] && !empty($search['to'])) {
-                $Statement->bindValue(':to', $search['to'], \PDO::PARAM_STR);
+            if (!empty($search['to'])) {
+                $Statement->bindValue(':to', $search['to']);
             }
         }
 
 
         try {
             $Statement->execute();
-        } catch (\PDOException $Exception) {
+        } catch (PDOException $Exception) {
             QUI\System\Log::writeException($Exception);
 
             return [];
         }
 
-        return $Statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $Statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Return the result list for a Grid control
      *
      * @param array $params - database query params (eq: order, limit)
-     * @param array|bool $search - search parameter
+     * @param bool|array $search - search parameter
      *
      * @return array
      */
-    public static function getGridList($params = [], $search = false)
+    public static function getGridList(array &$params = [], bool|array $search = false): array
     {
         $Grid = new QUI\Utils\Grid();
         $dbParams = $Grid->parseDBParams($params);
@@ -317,9 +325,7 @@ class Watcher
         }
 
         if (isset($params['perPage']) && isset($params['page'])) {
-            $params['limit']
-                = (($params['page'] - 1) * $params['perPage']) . ','
-                . $params['perPage'];
+            $params['limit'] = (($params['page'] - 1) * $params['perPage']) . ',' . $params['perPage'];
         }
 
         $order = $params['sortOn'] . ' ' . $params['sortBy'];
@@ -355,7 +361,7 @@ class Watcher
                 $result[$key]['username'] = QUI::getUsers()
                     ->get($value['uid'])
                     ->getUsername();
-            } catch (QUI\Exception $Exception) {
+            } catch (QUI\Exception) {
                 $result[$key]['username'] = 'unknown';
             }
         }
@@ -374,7 +380,7 @@ class Watcher
      *
      * @throws QUI\Exception
      */
-    public static function clear($date)
+    public static function clear(string $date): void
     {
         QUI\Permissions\Permission::checkPermission('quiqqer.watcher.clearlog');
 
@@ -398,8 +404,9 @@ class Watcher
 
     /**
      * @param Package\Package $Package
+     * @throws Exception
      */
-    public static function onPackageSetup(QUI\Package\Package $Package)
+    public static function onPackageSetup(QUI\Package\Package $Package): void
     {
         $dir = $Package->getDir();
         $watcherXml = $dir . 'watch.xml';
@@ -409,7 +416,7 @@ class Watcher
         }
 
         $Dom = XML::getDomFromXml($watcherXml);
-        $Path = new \DOMXPath($Dom);
+        $Path = new DOMXPath($Dom);
 
         $watchList = $Path->query("//quiqqer/watch");
         $table = QUI::getDBTableName('watcherEvents');
@@ -422,7 +429,7 @@ class Watcher
 
         // insert watches
         foreach ($watchList as $Watch) {
-            /* @var $Watch \DOMElement */
+            /* @var $Watch DOMElement */
             $ajax = $Watch->getAttribute('ajax');
             $exec = $Watch->getAttribute('exec');
             $event = $Watch->getAttribute('event');
