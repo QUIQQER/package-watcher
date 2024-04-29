@@ -75,7 +75,7 @@ class Watcher
             'message' => $message,
             'call' => $call,
             'callParams' => json_encode($callParams),
-            'uid' => QUI::getUserBySession()->getId() ?: 0,
+            'uid' => QUI::getUserBySession()->getUUID(),
             'statusTime' => date('Y-m-d H:i:s')
         ]);
     }
@@ -107,7 +107,7 @@ class Watcher
             'localeParams' => json_encode($localeParams),
             'call' => $call,
             'callParams' => json_encode($callParams),
-            'uid' => QUI::getUserBySession()->getId(),
+            'uid' => QUI::getUserBySession()->getUUID(),
             'statusTime' => date('Y-m-d H:i:s')
         ]);
     }
@@ -125,7 +125,7 @@ class Watcher
         }
 
         $User = QUI::getUserBySession();
-        $uid = $User->getId();
+        $uid = $User->getUUID();
 
         if (isset(self::$checked[$uid])) {
             return self::$checked[$uid];
@@ -155,7 +155,7 @@ class Watcher
 
         $User = QUI::getUserBySession();
 
-        if (isset(self::$users[$User->getId()])) {
+        if (isset(self::$users[$User->getUUID()])) {
             self::$checked[$uid] = true;
 
             return true;
@@ -165,7 +165,7 @@ class Watcher
 
         /* @var $Group Group */
         foreach ($groups as $Group) {
-            if (isset(self::$groups[$Group->getId()])) {
+            if (isset(self::$groups[$Group->getUUID()])) {
                 self::$checked[$uid] = true;
 
                 return true;

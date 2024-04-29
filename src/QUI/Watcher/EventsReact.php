@@ -232,7 +232,7 @@ class EventsReact
     public static function onUserSave(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userSave', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
@@ -245,7 +245,7 @@ class EventsReact
     public static function onUserSetPassword(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userSetPassword', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
@@ -258,7 +258,7 @@ class EventsReact
     public static function onUserDisable(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userDisable', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
@@ -271,7 +271,7 @@ class EventsReact
     public static function onUserActivate(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userActivate', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
@@ -284,7 +284,7 @@ class EventsReact
     public static function onUserDeactivate(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userDeactivate', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
@@ -297,7 +297,7 @@ class EventsReact
     public static function onUserDelete(QUI\Interfaces\Users\User $User): void
     {
         self::trigger('userDelete', [
-            'uid' => $User->getId()
+            'uid' => $User->getUUID()
         ]);
     }
 
