@@ -12,7 +12,9 @@ use QUI\ERP\Accounting\Payments\Transactions\Factory;
 use QUI\Exception;
 
 use function date;
+use function is_array;
 use function is_numeric;
+use function is_string;
 use function json_encode;
 
 /**
@@ -145,16 +147,26 @@ class EventsReact
     /**
      * event on ajax call - React at ajax events
      *
-     * @param string $function
+     * @param string|array $function
      * @param string $result
      * @param array $params
      * @throws Exception
      */
-    public static function onAjaxCall(string $function, string $result, array $params): void
+    public static function onAjaxCall(string|array $function, string|array $result, array $params): void
     {
         $Config = QUI::getPackage('quiqqer/watcher')->getConfig();
 
         if (!$Config->getValue('settings', 'logAjax')) {
+            return;
+        }
+
+        if (is_array($function)) {
+            foreach ($function as $func) {
+                if (is_string($func)) {
+                    self::onAjaxCall($func, $result, $params);
+                }
+            }
+
             return;
         }
 
