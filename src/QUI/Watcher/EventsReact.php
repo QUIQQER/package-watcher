@@ -602,7 +602,7 @@ class EventsReact
     /**
      * Return the global watch events -> from watch.xml's
      *
-     * @return array
+     * @return array|null
      */
     protected static function getWatchEvents(): ?array
     {
