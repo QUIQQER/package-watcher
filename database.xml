@@ -8,7 +8,7 @@
             <field type="VARCHAR(255) NULL DEFAULT NULL">localeGroup</field>
             <field type="VARCHAR(255) NULL DEFAULT NULL">localeVar</field>
             <field type="TEXT NULL DEFAULT NULL">localeParams</field>
-            <field type="INT(11) NOT NULL">uid</field>
+            <field type="VARCHAR(50) NOT NULL">uid</field>
             <field type="DATETIME NULL DEFAULT NULL">statusTime</field>
             <field type="VARCHAR(255) NULL DEFAULT NULL">call</field>
             <field type="MEDIUMTEXT NULL DEFAULT NULL">callParams</field>
