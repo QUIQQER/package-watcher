@@ -2,6 +2,7 @@
 
 namespace QUI\Watcher;
 
+use QUI\Exception;
 use QUI\Watcher;
 
 /**
@@ -15,9 +16,9 @@ class Cron
      * Delete all watcher entries older than X days
      *
      * @param array $params
-     * @throws \QUI\Exception
+     * @throws Exception
      */
-    public static function clearWatcherEntries($params)
+    public static function clearWatcherEntries(array $params): void
     {
         if (empty($params['days'])) {
             $params['days'] = 3;

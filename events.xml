@@ -3,6 +3,7 @@
 
     <event on="onPackageSetup" fire="\QUI\Watcher::onPackageSetup" />
     <event on="onHeaderLoaded" fire="\QUI\Watcher\EventsReact::onHeaderLoaded" />
+    <event on="onQuiqqerMigrationV2" fire="\QUI\Watcher\EventsReact::onQuiqqerMigrationV2" />
 
     <event on="onAjaxCall" fire="\QUI\Watcher\EventsReact::onAjaxCall" />
     <event on="onUserSave" fire="\QUI\Watcher\EventsReact::onUserSave" />
