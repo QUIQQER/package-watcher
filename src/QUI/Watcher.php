@@ -311,7 +311,7 @@ class Watcher
      *
      * @return array
      */
-    public static function getGridList(array &$params = [], bool|array $search = false): array
+    public static function getGridList(array $params = [], bool|array $search = false): array
     {
         $Grid = new QUI\Utils\Grid();
         $dbParams = $Grid->parseDBParams($params);
