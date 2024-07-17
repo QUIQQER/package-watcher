@@ -404,8 +404,8 @@ class Watcher
     public static function onSetupAllEnd(): void
     {
         foreach (QUI::getPackageManager()->getInstalled() as $plugin) {
-            $package = $plugin['name'];
-            $watcherXml = OPT_DIR . $package . '/products.xml';
+            $packageName = $plugin['name'];
+            $watcherXml = OPT_DIR . $packageName . '/products.xml';
 
             if (!file_exists($watcherXml)) {
                 return;
@@ -419,7 +419,7 @@ class Watcher
 
             // clear watches of package
             QUI::getDataBase()->delete($table, [
-                'package' => $package
+                'package' => $packageName
             ]);
 
             // insert watches
@@ -435,7 +435,7 @@ class Watcher
 
                 if ($ajax) {
                     QUI::getDataBase()->insert($table, [
-                        'package' => $package,
+                        'package' => $packageName,
                         'ajax' => $ajax,
                         'exec' => $exec
                     ]);
@@ -444,7 +444,7 @@ class Watcher
                 }
 
                 QUI::getDataBase()->insert($table, [
-                    'package' => $package,
+                    'package' => $packageName,
                     'event' => $event,
                     'exec' => $exec
                 ]);
