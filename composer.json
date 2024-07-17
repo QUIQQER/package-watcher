@@ -18,6 +18,7 @@
     "email": "support@pcsg.de"
   },
   "require": {
+    "ext-dom": "*",
     "quiqqer\/quiqqer": "*@dev",
     "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
   },
