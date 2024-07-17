@@ -403,56 +403,58 @@ class Watcher
     }
 
     /**
-     * @param Package\Package $Package
+     * After all packages have been set up, add all their watches to the watch list.
+     *
      * @throws Exception
      */
-    public static function onPackageSetup(QUI\Package\Package $Package): void
+    public static function onSetupAllEnd(): void
     {
-        $dir = $Package->getDir();
-        $watcherXml = $dir . 'watch.xml';
+        foreach (QUI::getPackageManager()->getInstalled() as $plugin) {
+            $package = $plugin['name'];
+            $watcherXml = OPT_DIR . $package . '/products.xml';
 
-        if (!file_exists($watcherXml)) {
-            return;
-        }
-
-        $Dom = XML::getDomFromXml($watcherXml);
-        $Path = new DOMXPath($Dom);
-
-        $watchList = $Path->query("//quiqqer/watch");
-        $table = QUI::getDBTableName('watcherEvents');
-        $package = $Package->getName();
-
-        // clear watches of package
-        QUI::getDataBase()->delete($table, [
-            'package' => $package
-        ]);
-
-        // insert watches
-        foreach ($watchList as $Watch) {
-            /* @var $Watch DOMElement */
-            $ajax = $Watch->getAttribute('ajax');
-            $exec = $Watch->getAttribute('exec');
-            $event = $Watch->getAttribute('event');
-
-            if (!$exec || !is_callable($exec)) {
-                continue;
+            if (!file_exists($watcherXml)) {
+                return;
             }
 
-            if ($ajax) {
+            $Dom = XML::getDomFromXml($watcherXml);
+            $Path = new DOMXPath($Dom);
+
+            $watchList = $Path->query("//quiqqer/watch");
+            $table = QUI::getDBTableName('watcherEvents');
+
+            // clear watches of package
+            QUI::getDataBase()->delete($table, [
+                'package' => $package
+            ]);
+
+            // insert watches
+            foreach ($watchList as $Watch) {
+                /* @var $Watch DOMElement */
+                $ajax = $Watch->getAttribute('ajax');
+                $exec = $Watch->getAttribute('exec');
+                $event = $Watch->getAttribute('event');
+
+                if (!$exec || !is_callable($exec)) {
+                    continue;
+                }
+
+                if ($ajax) {
+                    QUI::getDataBase()->insert($table, [
+                        'package' => $package,
+                        'ajax' => $ajax,
+                        'exec' => $exec
+                    ]);
+
+                    continue;
+                }
+
                 QUI::getDataBase()->insert($table, [
                     'package' => $package,
-                    'ajax' => $ajax,
+                    'event' => $event,
                     'exec' => $exec
                 ]);
-
-                continue;
             }
-
-            QUI::getDataBase()->insert($table, [
-                'package' => $package,
-                'event' => $event,
-                'exec' => $exec
-            ]);
         }
     }
 }
