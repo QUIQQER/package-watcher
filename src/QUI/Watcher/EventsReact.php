@@ -348,12 +348,12 @@ class EventsReact
     }
 
     /**
-     * event onPackageSetup
+     * event onPackageSetupEnd
      *
      * @param QUI\Package\Package $Package
      * @throws Exception
      */
-    public static function onPackageSetup(QUI\Package\Package $Package): void
+    public static function onPackageSetupEnd(QUI\Package\Package $Package): void
     {
         self::trigger('packageSetup', [
             'package' => $Package->getName()
@@ -361,12 +361,12 @@ class EventsReact
     }
 
     /**
-     * event onPackageInstall
+     * event onPackageInstallAfter
      *
      * @param QUI\Package\Package $Package
      * @throws Exception
      */
-    public static function onPackageInstall(QUI\Package\Package $Package): void
+    public static function onPackageInstallAfter(QUI\Package\Package $Package): void
     {
         self::trigger('packageInstall', [
             'package' => $Package->getName()

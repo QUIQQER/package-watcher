@@ -16,8 +16,8 @@
     <event on="onProjectConfigSave" fire="\QUI\Watcher\EventsReact::onProjectConfigSave" />
     <event on="onCreateProject" fire="\QUI\Watcher\EventsReact::onCreateProject" />
 
-    <event on="onPackageSetup" fire="\QUI\Watcher\EventsReact::onPackageSetup" />
-    <event on="onPackageInstall" fire="\QUI\Watcher\EventsReact::onPackageInstall" />
+    <event on="onPackageSetupEnd" fire="\QUI\Watcher\EventsReact::onPackageSetupEnd" />
+    <event on="onPackageInstallAfter" fire="\QUI\Watcher\EventsReact::onPackageInstallAfter" />
     <event on="onPackageUninstall" fire="\QUI\Watcher\EventsReact::onPackageUninstall" />
 
     <event on="onSiteActivate" fire="\QUI\Watcher\EventsReact::onSiteActivate" />
