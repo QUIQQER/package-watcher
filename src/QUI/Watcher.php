@@ -118,6 +118,11 @@ class Watcher
         $User = QUI::getUserBySession();
         $uid = $User->getId();
 
+        // TODO: turn this into a setting (see quiqqer/package-watcher#8)
+        if (QUI::getUsers()->isSystemUser($User)) {
+            return false;
+        }
+
         if (isset(self::$checked[$uid])) {
             return self::$checked[$uid];
         }
