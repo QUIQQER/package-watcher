@@ -59,7 +59,7 @@ class Watcher
      * @param string $message - Message
      * @param string $call - php call, eq: ajax function or event name
      * @param array $callParams - optional, call parameter
-     * @throws Exception|QUI\Exception
+     * @throws \QUI\Exception
      */
     public static function addString(string $message = '', string $call = '', array $callParams = []): void
     {
@@ -71,13 +71,20 @@ class Watcher
             return;
         }
 
-        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), [
+        $watcherEntry = [
             'message' => $message,
             'call' => $call,
             'callParams' => json_encode($callParams),
             'uid' => QUI::getUserBySession()->getUUID(),
             'statusTime' => date('Y-m-d H:i:s')
-        ]);
+        ];
+
+        try {
+            QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), $watcherEntry);
+        } catch (QUI\Database\Exception) {
+            // TODO: improve error handling, don't just write it to warning log
+            QUI\System\Log::addWarning('Could not add watcher entry', $watcherEntry);
+        }
     }
 
     /**
@@ -101,7 +108,7 @@ class Watcher
             return;
         }
 
-        QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), [
+        $watcherEntry = [
             'localeGroup' => $localeGroup,
             'localeVar' => $localeVar,
             'localeParams' => json_encode($localeParams),
@@ -109,7 +116,14 @@ class Watcher
             'callParams' => json_encode($callParams),
             'uid' => QUI::getUserBySession()->getUUID(),
             'statusTime' => date('Y-m-d H:i:s')
-        ]);
+        ];
+
+        try {
+            QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), $watcherEntry);
+        } catch (Database\Exception) {
+            // TODO: improve error handling, don't just write it to warning log
+            QUI\System\Log::addWarning('Could not add watcher entry', $watcherEntry);
+        }
     }
 
     /**
