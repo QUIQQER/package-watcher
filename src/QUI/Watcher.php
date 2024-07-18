@@ -81,7 +81,7 @@ class Watcher
 
         try {
             QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), $watcherEntry);
-        } catch (QUI\Database\Exception) {
+        } catch (\Exception) {
             // TODO: improve error handling, don't just write it to warning log
             QUI\System\Log::addWarning('Could not add watcher entry', $watcherEntry);
         }
@@ -120,7 +120,7 @@ class Watcher
 
         try {
             QUI::getDataBase()->insert(QUI::getDBTableName('watcher'), $watcherEntry);
-        } catch (Database\Exception) {
+        } catch (\Exception) {
             // TODO: improve error handling, don't just write it to warning log
             QUI\System\Log::addWarning('Could not add watcher entry', $watcherEntry);
         }
