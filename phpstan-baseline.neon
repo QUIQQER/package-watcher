@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method DOMNode\\:\\:getAttribute\\(\\)\\.$#"
+			count: 3
+			path: src/QUI/Watcher.php
+
+		-
+			message: "#^Offset 'sortOn' on array in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: src/QUI/Watcher.php
