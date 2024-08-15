@@ -325,7 +325,7 @@ class Watcher
             $params['sortOn'] = 'statusTime';
         }
 
-        if (!isset($params['sortOn'])) {
+        if (!isset($params['sortBy'])) {
             $params['sortBy'] = 'DESC';
         }
 
@@ -435,7 +435,10 @@ class Watcher
 
             // insert watches
             foreach ($watchList as $Watch) {
-                /* @var $Watch DOMElement */
+                if (!$Watch instanceof DOMElement) {
+                    continue;
+                }
+
                 $ajax = $Watch->getAttribute('ajax');
                 $exec = $Watch->getAttribute('exec');
                 $event = $Watch->getAttribute('event');
