@@ -127,6 +127,11 @@ class Watcher
         $User = QUI::getUserBySession();
         $uid = $User->getUUID();
 
+        // TODO: turn this into a setting (see quiqqer/package-watcher#8)
+        if (QUI::getUsers()->isSystemUser($User)) {
+            return false;
+        }
+
         if (isset(self::$checked[$uid])) {
             return self::$checked[$uid];
         }
@@ -320,7 +325,7 @@ class Watcher
             $params['sortOn'] = 'statusTime';
         }
 
-        if (!isset($params['sortOn'])) {
+        if (!isset($params['sortBy'])) {
             $params['sortBy'] = 'DESC';
         }
 
@@ -430,7 +435,10 @@ class Watcher
 
             // insert watches
             foreach ($watchList as $Watch) {
-                /* @var $Watch DOMElement */
+                if (!$Watch instanceof DOMElement) {
+                    continue;
+                }
+
                 $ajax = $Watch->getAttribute('ajax');
                 $exec = $Watch->getAttribute('exec');
                 $event = $Watch->getAttribute('event');
